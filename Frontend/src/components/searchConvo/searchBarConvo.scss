@@ -1,0 +1,85 @@
+@import "../../style.scss";
+
+
+.searchBar {
+ .search {
+    @include themify($themes) 
+    {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid themed("border");
+        //border: 1px solid lightgray;
+        border-radius: 5px;
+        padding: 5px;
+        //position: fixed;
+     
+        .chatMenuInput {
+            width: 90%;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 1px solid gray;
+            color: themed("textColor");
+          }
+
+        // input 
+        // {
+        //     border: none;
+        //     width: 500px;
+        //     background-color: transparent;
+        //     //background-color: red;
+        //     color: themed("textColor");
+
+        //     @include mobile{
+        //         display: none;
+        //     }
+
+        //     @include tablet{
+        //         width: 200px;
+        //     }
+        // }
+    
+    }  
+ }
+
+
+
+
+
+
+// .user-list {
+//     list-style-type: none; /* Remove bullet points */
+//     margin: 0; /* Remove default margin */
+//     padding: 0; /* Remove default padding */
+//     position: absolute; /* Example style */
+//     top: calc(100% + 5px); /* Position dropdown list below input */
+//     left: 0; /* Align with left edge of input field */
+//     background-color: white; /* Example style */
+//     border: 1px solid black; /* Example style */
+//     padding: 5px; /* Example style */
+//     z-index: 10; /* Example style */
+//   }
+  
+
+// .user-list {
+//     list-style-type: none;
+//     margin: 0;
+//     padding: 0;
+//     position: absolute;
+//     top: calc(100% + 5px);
+//     left: 0;
+//     background-color: white;
+//     border: 1px solid black;
+//     padding: 5px;
+//     z-index: 10;
+//     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add box shadow for dropdown effect */
+  
+//     /* Prevent link from being highlighted */
+//     a {
+//       text-decoration: none;
+//       color: inherit; /* Ensure link color remains the same */
+//     }
+//   }
+
+
+}

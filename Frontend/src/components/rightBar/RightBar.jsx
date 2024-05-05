@@ -159,8 +159,8 @@ const RightBar = () => {
         {/* Show a message or loading indicator if followers data is loading or not available */}
         {FollowersisLoading && <p>Loading...</p>}
         {Followerserror && <p>Error: {Followerserror.message}</p>}
-        {console.log(" followers Friends:", Followersdata)}
-        {console.log(Followerserror)}
+        {/* {console.log(" followers Friends:", Followersdata)}
+        {console.log(Followerserror)} */}
 
         {/* Display followers of the current user or a message if there are none */}
         {!FollowersisLoading && !Followerserror && (

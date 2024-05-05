@@ -1,6 +1,12 @@
+
+
 .messenger {
     height: calc(100vh - 70px);
     display: flex;
+    /* bgSoft: #333, */
+    background-color: #333;
+    /* background-color:#e4e3e3; */
+
   }
   
   .chatMenu {
@@ -42,6 +48,7 @@
     width: 80%;
     height: 90px;
     padding: 10px;
+    /* background-color: #333; */
   }
   
   .chatSubmitButton {

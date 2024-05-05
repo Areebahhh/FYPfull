@@ -1,8 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import "./messenger.css";
+// import "./messengerComponent.scss"
 import Conversation from "../../components/conversations/Conversation";
 import Message from "../../components/message/Message";
 import ChatOnline from "../../components/chatOnline/ChatOnline";
+import SearchBarConvo from "../../components/searchConvo/SearchBarConvo";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
 import { io } from "socket.io-client";
@@ -106,20 +109,52 @@ export default function MessengerComponent() {
 
 
 
+//OG get convo logic
 
-  //this useEffect will be used to fetch all current conversations of currentuser
+
+  // //this useEffect will be used to fetch all current conversations of currentuser
+  // useEffect(() => {
+  //   const getConversations = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:8800/api/conversations/" + currentUser.id);
+  //       setConversations(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getConversations();
+  // }, [currentUser.id]);
+
+
+
+//new get convo logic
+
+// Define a function to fetch conversations
+const fetchConversations = async (userId) => {
+  try {
+    const res = await axios.get(`http://localhost:8800/api/conversations/${userId}`);
+    return res.data;
+  } catch (err) {
+    throw new Error("Failed to fetch conversations");
+  }
+};
+
+// Inside your component:
+const { isLoading, error, data: fetchedConversations  } = useQuery({
+  queryKey: ["conversations", currentUser.id], // Unique query key
+  queryFn: () => fetchConversations(currentUser.id), // Function to fetch conversations
+  enabled: !!currentUser.id, // Ensures the query is only executed when currentUser.id is truthy
+  refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
+  retry: 1, // Optional: Number of retries before failing the query
+});
+
+
+  // Update conversations state with fetched data
   useEffect(() => {
-    const getConversations = async () => {
-      try {
-        const res = await axios.get("http://localhost:8800/api/conversations/" + currentUser.id);
-        setConversations(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getConversations();
-  }, [currentUser.id]);
-
+    if (fetchedConversations) {
+      setConversations(fetchedConversations);
+    }
+  }, [fetchedConversations]);
 
 
    //this useEffect will be used to fetch all messages of active conversation
@@ -185,8 +220,9 @@ export default function MessengerComponent() {
         <div className="chatMenu">
           <div className="chatMenuWrapper">
 
-            <input placeholder="Search for friends" className="chatMenuInput" />
-            
+            {/* <input placeholder="Search for friends" className="chatMenuInput" /> */}
+            <SearchBarConvo/>
+
             {conversations.map((c) => (
               <div onClick={() => setCurrentChat(c)}>
                 <Conversation conversation={c} currentUser={currentUser} />
