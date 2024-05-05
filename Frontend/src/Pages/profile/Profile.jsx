@@ -11,7 +11,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
 import Update from "../../components/update/Update";
@@ -19,10 +19,15 @@ import { useState } from "react";
 
 const Profile = () => {
   const [openUpdate, setOpenUpdate] = useState(false);
+
   const { currentUser } = useContext(AuthContext);
 
+  let navigate = useNavigate();
+
+  //Id of the user whose profile is being viewed
   const userId = parseInt(useLocation().pathname.split("/")[2]);
 
+  //Fetch user data of the user whose profile is being viewed
   const { isLoading, error, data } = useQuery({
     queryKey: ["user", userId],
 
@@ -36,8 +41,7 @@ const Profile = () => {
         }),
   });
 
-
-
+  //Fetch relationship data of the user
   const {
     isLoading: rIsLoading,
     error: rError,
@@ -51,7 +55,6 @@ const Profile = () => {
     onError: (error) => {
       console.error("Error fetching relationship data:", error);
     },
-    
   });
 
   const queryClient = useQueryClient();
@@ -73,28 +76,42 @@ const Profile = () => {
 
   const handleFollow = () => {
     // Determine if the current user is already followed by checking if their ID is included in relationshipData
-
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
 
-  //  const queryClient = useQueryClient();
-
-  // const mutation = useMutation(
-  //   (following) => {
-  //     if (following)
-  //       return makeRequest.delete("/relationships?userId=" + userId);
-  //     return makeRequest.post("/relationships", { userId });
-  //   },
-  //   {
-  //     onSuccess: () => {
-  //       // Invalidate and refetch
-  //       queryClient.invalidateQueries(["relationship"]);
-  //     },
-  //   }
-  // );
-
   const isFollowing = relationshipData && relationshipData.includes(currentUser.id);
-  // console.log(isFollowing);
+
+
+  //creatre convo
+
+  //userid of current user 
+  //senderId
+  const CurrentUserId = currentUser.id;
+
+  //for create a new conversation if it doesn't exist already and navigate to it
+  const createConvoMutation = useMutation({
+    mutationFn: ({ CurrentUserId, userId }) =>
+      makeRequest
+        .post(
+          `http://localhost:8800/api/conversations?senderId=${CurrentUserId}&receiverId=${userId}`
+        )
+        .then((res) => res.data.id), // Return the ID of the created conversation
+    onSuccess: (data) => {
+      // setCreatedConversationId(data); // Store the ID in state
+      queryClient.invalidateQueries(["conversations"]);
+
+      // Navigate to messenger page after conversation creation
+      navigate(`/messenger/${data}`);
+    },
+  });
+
+  //for creating a conversation
+  const handleCreateConversation = (CurrentUserId, userId) => {
+    //check if person is trying to create conversation with himself
+    if (CurrentUserId === userId) return;
+  
+    createConvoMutation.mutate({ CurrentUserId, userId });
+  };
 
   return (
     <div className="profile">
@@ -112,13 +129,13 @@ const Profile = () => {
               alt=""
               className="profilePic"
             />
-            {/* <img src={data.profilePic} alt="" className="profilePic" />  */}
+          
           </div>
 
           <div className="profileContainer">
             <div className="uInfo">
               <div className="left">
-                {/* https://www.facebook.com/ */}
+              
                 <a href="http://facebook.com">
                   <FacebookTwoToneIcon fontSize="large" />
                 </a>
@@ -131,9 +148,6 @@ const Profile = () => {
                 <a href="http://facebook.com">
                   <LinkedInIcon fontSize="large" />
                 </a>
-                {/* <a href="http://facebook.com">
-                  <PinterestIcon fontSize="large" />
-                </a> */}
               </div>
 
               <div className="center">
@@ -167,20 +181,21 @@ const Profile = () => {
               </div>
               <div className="right">
                 {/* Redirect to messenger route when the email icon is clicked */}
-                <Link
-                  to="/messenger"
-                  disabled={isFollowing}
-                  >
+                <button
+                  //for only able to send message if you're following the user
+                  // disabled={isFollowing}
 
+                  onClick={() => {
+                    //function to send message
+                    handleCreateConversation(CurrentUserId, userId);
+                  }}
+                >
                   <EmailOutlinedIcon />
+                </button>
 
-                </Link>
-                
                 <MoreVertIcon />
-              
               </div>
             </div>
-
 
             <br />
             <Posts Puserid={userId} />

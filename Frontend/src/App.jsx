@@ -22,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/profile/:userId" element={<ProfilePage/>}></Route>
           <Route path="/messenger" element={<Messenger/>}></Route>
+          <Route path="/messenger/:ConversationId" element={<Messenger/>}></Route>
           <Route path="/saved" element={<SavedPage/>}></Route>
 
           {/* student routes   */}

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react"
+import { useParams } from "react-router-dom";
 import "./messenger.css";
 // import "./messengerComponent.scss"
 import Conversation from "../../components/conversations/Conversation";
@@ -26,8 +27,56 @@ export default function MessengerComponent() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [friends, setFriends] = useState([]);
 
+  //Id of current conversation coming from profile of that receiver
+  const { ConversationId } = useParams();
+
+
+  useEffect(() => {
+    // Check if ConversationId is present
+    if (ConversationId) {
+
+      // Fetch the current conversation details using the ConversationId
+      const fetchCurrentConversations = async (ConversationId) => {
+        try {
+          const res = await axios.get(`http://localhost:8800/api/conversations?id=${ConversationId}`);
+          if (res.data.length > 0) {
+            return res.data[0]; // Return the object at index 0
+          } else {
+            throw new Error("No conversation found");
+          }
+        } catch (err) {
+          throw new Error("Failed to fetch conversations");
+        }
+      };
+      
+
+
+      fetchCurrentConversations(ConversationId)
+      .then((data) => {
+        if(data)
+          {
+          setCurrentChat(data);
+          }
+         
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    }
+  }, [ConversationId]); // Run this effect whenever ConversationId changes
+  
+
+
+
+
   const socket = useRef();
   const scrollRef = useRef();
+
+
+
+
+
 
 //To send something from client side to server side of socket we use socket.emit
 //and to fetch something we use socket.on
@@ -44,6 +93,7 @@ export default function MessengerComponent() {
       });
     });
 
+    //fetching friends data of current user
     const getFriends = async () => {
       const res = await axios.get("http://localhost:8800/api/relationships/friendsdata?userId=" + currentUser.id);
       // console.log("response: ",res.data)
@@ -61,8 +111,8 @@ export default function MessengerComponent() {
     socket.current.on("getUsers", (users) => {
 
        const onlineVariable = friends.filter((f) => users.some((u) => u.userId === f.id))
-    
-      
+  
+       //update online users
       setOnlineUsers(
         onlineVariable
         )
@@ -71,9 +121,6 @@ export default function MessengerComponent() {
   }, [friends , currentUser]);
 
   
-  // useEffect(() => {
-  //   console.log("Online Friends in use effect :", onlineUsers);
-  // }, [friends ,onlineUsers]);
 
   useEffect(() => {
     // Check if currentChat and its members property are defined and not null
@@ -93,43 +140,13 @@ export default function MessengerComponent() {
 
   useEffect(() => {
     socket.current.emit("addUser", currentUser.id);
-
-    // socket.current.on("getUsers", (users) => {
-    //    console.log("users: ", users);
-    //    console.log("friendss: ", friends);
-
-  
-    //   setOnlineUsers(
-    //     friends.filter((f) => users.some((u) => u.userId === f))
-    //     )
-    // }); 
-    
-
   }, [currentUser]);
 
 
 
-//OG get convo logic
+//get convo logic
 
-
-  // //this useEffect will be used to fetch all current conversations of currentuser
-  // useEffect(() => {
-  //   const getConversations = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:8800/api/conversations/" + currentUser.id);
-  //       setConversations(res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   getConversations();
-  // }, [currentUser.id]);
-
-
-
-//new get convo logic
-
-// Define a function to fetch conversations
+// function to fetch conversations
 const fetchConversations = async (userId) => {
   try {
     const res = await axios.get(`http://localhost:8800/api/conversations/${userId}`);
@@ -139,7 +156,7 @@ const fetchConversations = async (userId) => {
   }
 };
 
-// Inside your component:
+// useQuery hook to fetch conversations
 const { isLoading, error, data: fetchedConversations  } = useQuery({
   queryKey: ["conversations", currentUser.id], // Unique query key
   queryFn: () => fetchConversations(currentUser.id), // Function to fetch conversations
@@ -153,6 +170,7 @@ const { isLoading, error, data: fetchedConversations  } = useQuery({
   useEffect(() => {
     if (fetchedConversations) {
       setConversations(fetchedConversations);
+   
     }
   }, [fetchedConversations]);
 
@@ -224,7 +242,10 @@ const { isLoading, error, data: fetchedConversations  } = useQuery({
             <SearchBarConvo/>
 
             {conversations.map((c) => (
-              <div onClick={() => setCurrentChat(c)}>
+              <div onClick={() => {
+                setCurrentChat(c)
+               
+              }}>
                 <Conversation conversation={c} currentUser={currentUser} />
               </div>
             ))}
