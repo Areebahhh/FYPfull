@@ -16,12 +16,22 @@ const InterviewRecruiterModal = ({ setOpenUpdate, postId,user  }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data) => makeRequest.post("/interviews", data),
+    mutationFn: (data) => makeRequest.post("/interviews", data).then(() => {
+      // Send notification after successful creation of interview
+
+        makeRequest.post("/notifications", {
+          postId: postId,
+          receiverId: user.id,
+          type: 4, // 4 represents an interview notification
+        });
+      
+    }),
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["interviews"]);
     },
   });
+  
 
   const handleClick = async (e) => {
     e.preventDefault();

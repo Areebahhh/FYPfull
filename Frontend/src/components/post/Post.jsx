@@ -160,6 +160,23 @@ const Post = ({ post }) => {
   // console.log("job data is:", Jobdata);
 
   //logic for applying for a job or cancel job request
+  // const Jobmutation = useMutation({
+  //   mutationFn: (applied) => {
+  //     if (applied) {
+  //       return makeRequest.delete(`/jobs?postId=${post.Pid}`);
+  //     } else {
+  //       return makeRequest.post(`/jobs?userId=${currentUserId}`, {
+  //         postid: post.Pid,
+  //       });
+  //     }
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["appliedjob"]);
+  //     setApplied(!applied);
+  //   },
+  // });
+
+
   const Jobmutation = useMutation({
     mutationFn: (applied) => {
       if (applied) {
@@ -167,6 +184,14 @@ const Post = ({ post }) => {
       } else {
         return makeRequest.post(`/jobs?userId=${currentUserId}`, {
           postid: post.Pid,
+        }).then(() => {
+          if (post.Puserid !== currentUserId) {
+            makeRequest.post("/notifications", {
+              postId: post.Pid,
+              receiverId: post.Puserid,
+              type: 3,
+            });
+          }
         });
       }
     },
@@ -175,6 +200,7 @@ const Post = ({ post }) => {
       setApplied(!applied);
     },
   });
+  
 
   const handleApply = () => {
     Jobmutation.mutate(Jobdata.includes(post.Pid));

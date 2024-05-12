@@ -9,44 +9,42 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link } from "react-router-dom";
 import { useContext, useEffect ,useRef,useState } from "react";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 import SearchBar from "../searchbar/SearchBar";
 import NotificationMenu from "../notificationMenu/NotificationMenu";
-import { io } from "socket.io-client";
+import { makeRequest } from "../../axios";
 
-//{socket}
+
 
 const Navbar = () => {
    const { toggle, darkMode } = useContext(DarkModeContext);
    const { currentUser } = useContext(AuthContext);
 
    const [openUpdate, setOpenUpdate] = useState(false);
-
-   const [notifications, setNotifications] = useState([]);
-   const [open, setOpen] = useState(false);
-
-     const socket = useRef();
-
-
-    useEffect(() => {
-
-      if (socket.current) {
-        socket.current.on("getNotification", (data) => {
-          setNotifications((prev) => [...prev, data]);
-        });
-      }
-      // console.log("notifications:",notifications)
-    }, [socket.current]);
+ 
     
-    
+    const recieverId = currentUser.id;
 
-    
-    // useEffect(() => {
+  // For fetching all notifications of our current user
+  const { isLoading, error, data: notificationData } = useQuery({
+    queryKey: ["Notification", recieverId],
+    queryFn: () => makeRequest.get(`/notifications?userId=${recieverId}`).then((res) => res.data),
+    enabled: !!recieverId, // Ensures the query is only executed when recieverId is truthy
+    refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
+    retry: 1, // Optional: Number of retries before failing the query
+  });
+  
 
+  if (isLoading) return <div>Loading notifications...</div>;
+  if (error) return <div>Error fetching notifications: {error.message}</div>;
 
-    //   console.log("notifications:",notifications)
-    // }, [notifications]);
+  //if there are no notifications, display a message
+  if (!Array.isArray(notificationData) || notificationData.length === 0) {
+    return <div>No notifications</div>;
+  }    
+  
 
    
   return (
@@ -91,21 +89,18 @@ const Navbar = () => {
           <div className="iconImg">
             <NotificationsOutlinedIcon />
           </div>
-            {/* {notifications.length > 0 && ( */}
-              <div className="counter">2</div>
-              {/* <div className="counter">{notifications.length}</div> */}
-            {/* )} */}  
+             {/* {console.log("notifications",notificationData.length)}  */}
+             {notificationData.length > 0 && ( 
+              // <div className="counter">2</div>
+               <div className="counter">{notificationData.length}</div> 
+             )} 
         </div>
 
-        <div className="icon" onClick={() => setOpen(!open)}>
+        {/* <div className="icon" onClick={() => setOpen(!open)}>
           <div className="iconImg">
             <EmailOutlinedIcon />
           </div>
-            {/* {notifications.length > 0 && ( */}
-              <div className="counter">2</div>
-              {/* <div className="counter">{notifications.length}</div> */}
-            {/* )} */}  
-        </div>
+        </div> */}
 
       </div>    
 

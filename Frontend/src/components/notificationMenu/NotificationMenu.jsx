@@ -43,29 +43,16 @@ const handleMarkAsRead = (Nid) => {
   const { isLoading, error, data: notificationData } = useQuery({
     queryKey: ["Notification", recieverId],
     queryFn: () => makeRequest.get(`/notifications?userId=${recieverId}`).then((res) => res.data),
-    enabled: !!recieverId, // Ensures the query is only executed when postId is truthy
+    enabled: !!recieverId, // Ensures the query is only executed when recieverId is truthy
     refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
     retry: 1, // Optional: Number of retries before failing the query
   });
-
-
- 
-
- 
-
-
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-
-    setOpenUpdate(false);
-  }
   
 
   if (isLoading) return <div>Loading notifications...</div>;
   if (error) return <div>Error fetching notifications: {error.message}</div>;
 
-  //if there are no users who have applied to the current post, display a message
+  //if there are no notifications, display a message
   if (!Array.isArray(notificationData) || notificationData.length === 0) {
     return <div>No notifications</div>;
   }
@@ -94,7 +81,16 @@ const handleMarkAsRead = (Nid) => {
                     <span>{notifications.name} commented on your post</span>
                   )}
                   {notifications.type === 3 && (
-                    <span>{notifications.name} sent you a message</span>
+                    <span>{notifications.name} applied to your job post</span>
+                  )}
+                  {notifications.type === 4 && (
+                    <span>{notifications.name} scheduled an interview for you</span>
+                  )}
+                  {notifications.type === 5 && (
+                    <span>{notifications.name} rescheduled your interview </span>
+                  )}
+                  {notifications.type === 6 && (
+                    <span>{notifications.name} rejected your application</span>
                   )}
 
               <span className="date">

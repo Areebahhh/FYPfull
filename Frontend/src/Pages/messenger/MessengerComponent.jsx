@@ -221,11 +221,15 @@ const { isLoading, error, data: fetchedConversations  } = useQuery({
       setMessages([...messages, res.data]);
       setNewMessage("");
 
-    // // Sending data to the notification API without postId
-    // await axios.post("http://localhost:8800/api/notifications", {
-    //   receiverId,
-    //   type: 3,
-    // });
+
+
+    //   const NotifactionBody = { 
+    //     receiverId: receiverId,
+    //     type: 3,
+    //   };
+
+    // // // Sending data to the notification API without postId
+    // await axios.post("http://localhost:8800/api/notifications", NotifactionBody);
 
 
     } catch (err) {

@@ -14,14 +14,23 @@ const UpdateInterviewModal = ({ setOpenUpdate, postId,applicant  }) => {
 
   //for updating the interview schedule
   const mutation = useMutation({
-    mutationFn: (data) => makeRequest.put(`/interviews?postId=${postId}&studentId=${applicant.studentid}`, data),
+    mutationFn: (data) => makeRequest.put(`/interviews?postId=${postId}&studentId=${applicant.studentid}`, data).then(() => {
+      // Send notification after successful update of interview
+     
+        makeRequest.post("/notifications", {
+          postId: postId,
+          receiverId: applicant.studentid,
+          type: 5, // 5 represents an interview update notification
+        });
+
+    }),
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries(["interviews"]);
-
       setOpenUpdate(false);
     },
   });
+  
 
   const handleClick = async (e) => {
     e.preventDefault();

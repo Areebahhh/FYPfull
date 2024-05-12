@@ -116,13 +116,23 @@ const ApplicantsForPost = ({ postId }) => {
     //variable for storing the applicant object to pass in the update modal
     const [applicantObj, setApplicantObj] = useState(null);
 
-  //for rejecting an application by useQueryClient
-  const rejectApplicationMutation = useMutation({
-    mutationFn: ({ userId, postId }) => makeRequest.delete(`/jobs/reject?userId=${userId}&postId=${postId}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]);
-    },
-  });
+    const rejectApplicationMutation = useMutation({
+      mutationFn: ({ userId, postId }) => makeRequest.delete(`/jobs/reject?userId=${userId}&postId=${postId}`)
+        .then(() => {
+          // Send notification after successful rejection
+        
+            makeRequest.post("/notifications", {
+              postId: postId,
+              receiverId: userId,
+              type: 6, // 6 represents a rejection notification
+            });
+         
+        }),
+      onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+      },
+    });
+    
   
   //for rejecting an application by removing the entry from the appliedjobs table
   const handleRejectApplication = (userId, postId) => {
