@@ -220,9 +220,22 @@ const { isLoading, error, data: fetchedConversations  } = useQuery({
       const res = await axios.post("http://localhost:8800/api/messages", message);
       setMessages([...messages, res.data]);
       setNewMessage("");
+
+    // // Sending data to the notification API without postId
+    // await axios.post("http://localhost:8800/api/notifications", {
+    //   receiverId,
+    //   type: 3,
+    // });
+
+
     } catch (err) {
       console.log(err);
     }
+
+
+   
+
+
   };
 
   //for scrolling down to the newest message from users

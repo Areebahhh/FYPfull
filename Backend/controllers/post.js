@@ -15,15 +15,26 @@ export const getPosts = (req, res) => {
     
     //this query is to display post on users profile that are only posted by him
      const q = userId !== "undefined" 
-     ? `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.Puserid) 
+     ? `SELECT p.*, u.id AS userId, name, profilePic 
+        FROM posts AS p 
+        JOIN users AS u ON (u.id = p.Puserid) 
         WHERE p.Puserid=?
         ORDER BY p.createdAt DESC` 
      
      
-     :  `SELECT p.*, u.id AS userId, name, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.Puserid) 
-        LEFT JOIN relationships AS r ON (p.Puserid = r.followeduserid) 
-        WHERE r.followeruserid= ? OR p.Puserid =?
-        ORDER BY p.createdAt DESC`
+     :  `SELECT p.*, u.id AS userId, u.name, u.profilePic
+     FROM posts AS p
+     JOIN users AS u ON (u.id = p.Puserid)
+     WHERE p.Puserid = ? 
+        OR p.Puserid IN (SELECT followeduserid FROM relationships WHERE followeruserid = ?)  
+     ORDER BY p.createdAt DESC;
+     `
+    //  :  `SELECT p.*, u.id AS userId, name, profilePic 
+    //     FROM posts AS p 
+    //     JOIN users AS u ON (u.id = p.Puserid) 
+    //     LEFT JOIN relationships AS r ON (p.Puserid = r.followeduserid) 
+    //     WHERE r.followeruserid= ? OR p.Puserid =?
+    //     ORDER BY p.createdAt DESC`
 
       const values= userId!== "undefined"  ? [userId]: [userInfo.id,userInfo.id]; 
 

@@ -21,6 +21,8 @@ const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [applied, setApplied] = useState(false);
+  const [currentPostId, setCurrentPostId] = useState(null);
+  const [receiverId, setReceiverId] = useState(null);
   const [saved, setSaved] = useState(false); // State to track whether the post is saved by the current user
 
   const { currentUser } = useContext(AuthContext);
@@ -56,22 +58,45 @@ const Post = ({ post }) => {
 
   const queryClient = useQueryClient();
 
+  // const mutation = useMutation({
+  //   mutationFn: (liked) => {
+  //     // Depending on the 'liked' state, either post a new like or delete an existing one
+  //     if (liked) {
+  //       // If 'liked' is true, it means the user wants to unlike the post
+  //       return makeRequest.delete(`/likes?postId=${post.Pid}`);
+  //     } else {
+  //       // If 'liked' is false, it means the user wants to like the post
+  //       return makeRequest.post("/likes", { postId: post.Pid });
+  //         // makeRequest.post("/notifications", { postId: post.Pid , receiverId: post.Puserid, type: 1 });
+  //     }
+  //   },
+  //   onSuccess: () => {
+  //     // After successfully liking/unliking, invalidate and refetch the 'likes' query to update the UI
+  //     queryClient.invalidateQueries(["likes"]);
+  //   },
+  // });
+
   const mutation = useMutation({
     mutationFn: (liked) => {
-      // Depending on the 'liked' state, either post a new like or delete an existing one
       if (liked) {
-        // If 'liked' is true, it means the user wants to unlike the post
         return makeRequest.delete(`/likes?postId=${post.Pid}`);
       } else {
-        // If 'liked' is false, it means the user wants to like the post
-        return makeRequest.post("/likes", { postId: post.Pid });
+        return makeRequest.post("/likes", { postId: post.Pid })
+          .then(() => {
+            if(post.Puserid !== currentUserId){
+            makeRequest.post("/notifications", { postId: post.Pid, receiverId: post.Puserid, type: 1 });
+            }
+          });
       }
     },
     onSuccess: () => {
-      // After successfully liking/unliking, invalidate and refetch the 'likes' query to update the UI
       queryClient.invalidateQueries(["likes"]);
     },
   });
+  
+
+
+
 
   // updated post
 
@@ -88,18 +113,18 @@ const Post = ({ post }) => {
     deleteMutation.mutate(post.Pid);
   };
 
-  const handleLike = (type) => {
-    //console.log(currentUser.id);
+  const handleLike = () => {
+    //  console.log(" current post id is:", currentPostId);
 
-    if (socket.current) {
-      socket.current.emit("sendNotification", {
-        senderId: currentUser.id,
-        receiverId: post.Puserid,
-        type: 1,
-      });
-    } else {
-      console.error("Socket not initialized");
-    }
+    // if (socket.current) {
+    //   socket.current.emit("sendNotification", {
+    //     senderId: currentUser.id,
+    //     receiverId: post.Puserid,
+    //     type: 1,
+    //   });
+    // } else {
+    //   console.error("Socket not initialized");
+    // }
 
     mutation.mutate(data.includes(currentUser.id));
   };
@@ -265,12 +290,17 @@ const Post = ({ post }) => {
                 onClick={handleLike}
               />
             ) : (
-              <FavoriteBorderOutlinedIcon onClick={handleLike} />
+               <FavoriteBorderOutlinedIcon onClick={handleLike} />
+              // <FavoriteBorderOutlinedIcon onClick={() => { setCurrentPostId(post.Pid); handleLike(); }} />
             )}
+           
             {data?.length} Likes
           </div>
 
-          <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
+          {/* <div className="item" onClick={() => setCommentOpen(!commentOpen)}> */}
+          <div className="item" onClick={() => { 
+            setCommentOpen(!commentOpen); 
+            setReceiverId(post.Puserid); }}>
             {/* <div className="item" > */}
             <TextsmsOutlinedIcon />
             See Comments
@@ -320,7 +350,7 @@ const Post = ({ post }) => {
           )}
         </div>
 
-        {commentOpen && <Comments postId={post.Pid} />}
+        {commentOpen && <Comments postId={post.Pid} receiverId={receiverId}/>}
       </div>
     </div>
   );

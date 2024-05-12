@@ -12,6 +12,7 @@ import { useContext, useEffect ,useRef,useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/authContext";
 import SearchBar from "../searchbar/SearchBar";
+import NotificationMenu from "../notificationMenu/NotificationMenu";
 import { io } from "socket.io-client";
 
 //{socket}
@@ -20,7 +21,8 @@ const Navbar = () => {
    const { toggle, darkMode } = useContext(DarkModeContext);
    const { currentUser } = useContext(AuthContext);
 
-   
+   const [openUpdate, setOpenUpdate] = useState(false);
+
    const [notifications, setNotifications] = useState([]);
    const [open, setOpen] = useState(false);
 
@@ -82,7 +84,10 @@ const Navbar = () => {
       
       <div className="icons">
         
-        <div className="icon" onClick={() => setOpen(!open)}>
+        <div className="icon"   
+                onClick={() => {
+                  setOpenUpdate(true)
+                }}>
           <div className="iconImg">
             <NotificationsOutlinedIcon />
           </div>
@@ -117,6 +122,8 @@ const Navbar = () => {
         {/* </Link>   */}
         </div>
       </div>
+      {openUpdate && <NotificationMenu setOpenUpdate={setOpenUpdate}   />}
+    
     </div>
   );
 };

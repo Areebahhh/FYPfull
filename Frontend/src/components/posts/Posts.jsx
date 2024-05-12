@@ -2,14 +2,18 @@ import Post from "../post/Post";
 import "./posts.scss";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
+import { v4 as uuidv4 } from 'uuid';
 
 // const Posts = ({userId}) => {
 const Posts = ({Puserid}) => {
  
+
+  // console.log("Puserid is:",Puserid);
+
   const { isLoading, error, data } = useQuery({queryKey: ["posts"], 
   queryFn: () =>
     makeRequest.get("/posts?Puserid="+Puserid).then((res) => {
-      // console.log("Post data response ",res.data);
+       //console.log("Post data response ",res.data);
       return res.data;
     })}
   );
@@ -45,18 +49,39 @@ const Posts = ({Puserid}) => {
   //   }
   // ]
 
+
+    // return (
+  //   <div className="posts">
+  //     {error ? (
+  //       "Something went wrong!"
+  //     ) : isLoading ? (
+  //       "loading"
+  //     ) : (
+  //       data.map((post) => (
+  //         <div key={uuidv4()}>
+  //           <Post post={post} />
+  //           <p>Generated UUID: {uuidv4()}</p>
+  //         </div>
+  //       ))
+  //     )}
+  //   </div>
+  // );
+
   return (
     <div className="posts">
       {error
         ? "Something went wrong!"
         : isLoading
         ? "loading"
-        : data.map((post) => <Post post={post} key={post.id} />)
+        // : data.map((post) => <Post post={post} key={post.id} />)
+        : data.map((post) => <Post post={post} key={uuidv4()} />)
         }
 
         {/* {posts.map((post) => <Post post={post} key={post.id} />)} */}
     </div>
   );
+
+
 };
 
 export default Posts;
