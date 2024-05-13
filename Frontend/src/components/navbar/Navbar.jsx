@@ -37,13 +37,13 @@ const Navbar = () => {
   });
   
 
-  if (isLoading) return <div>Loading notifications...</div>;
-  if (error) return <div>Error fetching notifications: {error.message}</div>;
+  // if (isLoading) return <div>Loading notifications...</div>;
+  // if (error) return <div>Error fetching notifications: {error.message}</div>;
 
-  //if there are no notifications, display a message
-  if (!Array.isArray(notificationData) || notificationData.length === 0) {
-    return <div>No notifications</div>;
-  }    
+  // //if there are no notifications, display a message
+  // if (!Array.isArray(notificationData) || notificationData.length === 0) {
+  //   return <div>No notifications</div>;
+  // }    
   
 
    
@@ -56,31 +56,30 @@ const Navbar = () => {
         <Link to="/studentHome">
           <HomeOutlinedIcon style={{ color: 'inherit', textDecoration: 'none' }} />
         </Link>
-        {/* <HomeOutlinedIcon/> */}
+  
+      {/* conditionally render the WbSunnyOutlinedIcon or DarkModeOutlinedIcon based on the darkMode value */}
+
         {darkMode ? (
           <WbSunnyOutlinedIcon onClick={toggle} />
         ) : (
           <DarkModeOutlinedIcon onClick={toggle} />
         )}
-        {/* <DarkModeOutlinedIcon /> */}
+      
         <GridViewOutlinedIcon />
 
         <div>
-          {/* <SearchOutlinedIcon />
-          <input type="text" placeholder="Search..." /> */}
+
+           {/* searchbar component */}
           <SearchBar/>
+
         </div>
 
       </div>
       <div className="right">
-        {/* <PersonOutlinedIcon /> */}
-
-        {/* <EmailOutlinedIcon /> */}
-
-        {/* <NotificationsOutlinedIcon /> */}
-
       
       <div className="icons">
+        
+        {/* Notifications modal */}
         
         <div className="icon"   
                 onClick={() => {
@@ -89,11 +88,10 @@ const Navbar = () => {
           <div className="iconImg">
             <NotificationsOutlinedIcon />
           </div>
-             {/* {console.log("notifications",notificationData.length)}  */}
-             {notificationData.length > 0 && ( 
-              // <div className="counter">2</div>
-               <div className="counter">{notificationData.length}</div> 
-             )} 
+           
+            {notificationData && notificationData.length > 0 && (
+                <div className="counter">{notificationData.length}</div> 
+            )}
         </div>
 
         {/* <div className="icon" onClick={() => setOpen(!open)}>
@@ -109,10 +107,10 @@ const Navbar = () => {
           <img
             // src="https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600"
              src={"/upload/" + currentUser.profilePic}
-            //  src={ currentUser.profilePic}
+          
             alt=""
           />
-          {/* <span>Ammar</span> */}
+        
           <span>{currentUser.name}</span>
         {/* </Link>   */}
         </div>
