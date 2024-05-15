@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 // import './adminPage.css'; // Include CSS styles
 import AdminsTableCrud from './AdminsTableCrud';
+import UniDomainsTableCrud from './UniDomainsTableCrud';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faTableCellsRowLock } from '@fortawesome/free-solid-svg-icons';
@@ -111,7 +112,7 @@ function AdminPage() {
             onClick={(e) => handleTabClick(e, 'tab1')}
           >
             <a href="">
-              <i className="fa fa-tachometer"></i>General
+              <i className=""></i>Admins
             </a>
           </li>
 
@@ -125,7 +126,7 @@ function AdminPage() {
             <a href="">
               <i ></i>
               {/* <FontAwesomeIcon icon={faTableCellsRowLock} /> */}
-              Admin Table
+              Users
             </a>
           </li>
           
@@ -140,9 +141,10 @@ function AdminPage() {
             onClick={(e) => handleTabClick(e, 'tab3')}
           >
             <a href="">
-              <i className="fa fa-pencil"></i>Typography
+              <i className=""></i>University Domains
             </a>
           </li>
+
 
 
 
@@ -152,9 +154,11 @@ function AdminPage() {
             onClick={(e) => handleTabClick(e, 'tab4')}
           >
             <a href="">
-              <i className="fa fa-picture-o"></i>Portfolio
+              <i className=""></i>All Posts
             </a>
           </li>
+{/* 
+
           <li
             className={activeTab === 'tab5' ? 'active' : ''}
             onClick={(e) => handleTabClick(e, 'tab5')}
@@ -162,7 +166,9 @@ function AdminPage() {
             <a href="">
               <i className="fa fa-file-video-o"></i>Blog / News
             </a>
-          </li>
+          </li> */}
+{/* 
+
           <li
             className={activeTab === 'tab6' ? 'active' : ''}
             onClick={(e) => handleTabClick(e, 'tab6')}
@@ -170,7 +176,10 @@ function AdminPage() {
             <a href="">
               <i className="fa fa-wrench"></i>Advanced
             </a>
-          </li>
+          </li> */}
+
+
+
         </ul>
       </div>
 
@@ -181,7 +190,9 @@ function AdminPage() {
           id="tab1"
           style={{ display: activeTab === 'tab1' ? 'block' : 'none' }}
         >
-          <h2 className="header">Dashboard</h2>
+          <h2 className="header">Admin Table</h2>
+
+          <AdminsTableCrud />
         </div>
 
 
@@ -190,9 +201,9 @@ function AdminPage() {
           id="tab2"
           style={{ display: activeTab === 'tab2' ? 'block' : 'none' }}
         >
-          <h2 className="header">Admin Table</h2>
+          <h2 className="header">Users</h2>
 
-          <AdminsTableCrud />
+          
 
           
         </div>
@@ -203,14 +214,22 @@ function AdminPage() {
           id="tab3"
           style={{ display: activeTab === 'tab3' ? 'block' : 'none' }}
         >
-          <h2 className="header">Typography</h2>
+          <h2 className="header">UNI</h2>
+
+          <UniDomainsTableCrud/>
+
         </div>
+
+
         <div
           id="tab4"
           style={{ display: activeTab === 'tab4' ? 'block' : 'none' }}
         >
-          <h2 className="header">Portfolio</h2>
+          <h2 className="header">Portfoliiiio</h2>
         </div>
+
+
+
         <div
           id="tab5"
           style={{ display: activeTab === 'tab5' ? 'block' : 'none' }}

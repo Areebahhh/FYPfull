@@ -19,10 +19,42 @@ import { Link } from "react-router-dom";
 
 import portfolioIcon from "../../assets/portfoliosmol.png"
 
+// import React, { useState, useEffect } from 'react';
+
+
+
+
 const LeftBar = () => {
 
    const { currentUser } = useContext(AuthContext);
    const userid= currentUser.id
+
+
+
+  //  const [showModal, setShowModal] = useState(false);
+  // const userId = "current_user_id"; // Replace "current_user_id" with the actual user ID
+
+  // useEffect(() => {
+  //   // Function to fetch portfolio data
+  //   const fetchPortfolioData = async () => {
+  //     try {
+  //       const response = await fetch(`/api/portfolio/${userId}`);
+  //       const data = await response.json();
+  //       // If portfolio data doesn't exist, show modal
+  //       if (response.status === 404) {
+  //         setShowModal(true);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching portfolio data:', error);
+  //     }
+  //   };
+
+  //   // Call the function when component mounts
+  //   fetchPortfolioData();
+  // }, [userId]);
+
+
+
    
   return (
     <div className="leftBar">
@@ -50,17 +82,40 @@ const LeftBar = () => {
             <span>Friends</span>
           </div> */}
 
+{/* skjfk;ajefkjw */}
           <div className="item">
             <img src={portfolioIcon} alt="" />
             <Link to="/PortfolioPage" style={{ textDecoration: 'none', color: 'inherit' }} >Portfolio</Link>
-            {/* <span>Groups</span> */}
+            
           </div>
+
+          {/* lsamf;skmf */}
+
+          {/* <div className="item">
+      <img src={portfolioIcon} alt="" />
+      <Link to="/PortfolioPage" style={{ textDecoration: 'none', color: 'inherit' }}>
+        Portfolio
+      </Link>
+      
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+            <p>You don't have a portfolio yet. Create one now!</p>
+          </div>
+        </div>
+      )}
+    </div> */}
+
+
+
+
           
 
           <div className="item">
             <img src={smoledit} alt="" />
             <Link to="/EditablePortfolio" style={{ textDecoration: 'none', color: 'inherit' }} >Edit Portfolio</Link>
-            {/* <span>Groups</span> */}
+            
           </div>
 
 

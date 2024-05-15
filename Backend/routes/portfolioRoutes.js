@@ -3,6 +3,8 @@
 import express from "express";
 import {
 
+    getPortfolioData,
+
     saveAboutData,
     getAboutData,
     checkUserAboutid,
@@ -41,6 +43,9 @@ import {
 
 const router = express.Router();
 
+
+getPortfolioData
+router.get("/getPortfolioData", getPortfolioData);
 
 // ABOUT ROUTES
 // route for the api code that is checking about id value for the current user

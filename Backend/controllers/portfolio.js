@@ -5,6 +5,37 @@ import jwt from "jsonwebtoken";
 
 
 
+// Function to fetch portfolio data for a specific user
+export const getPortfolioData = (req, res) => {
+  const userId = req.params.userId;
+
+  // SQL query to check if portfolio exists for the given user
+  const q = `
+    SELECT *
+    FROM portfolio
+    WHERE userId = ?
+    LIMIT 1
+  `;
+
+  // Execute the query to check if portfolio exists
+  db.query(q, [userId], (err, result) => {
+    if (err) {
+      console.error('Error fetching portfolio data:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Portfolio not found for the given user' });
+    }
+
+    // Portfolio exists, return the data
+    const portfolioData = result[0];
+    res.status(200).json(portfolioData);
+  });
+};
+
+
+
 
 export const saveAboutData = (req, res) => {
     const userId = req.params.userId;

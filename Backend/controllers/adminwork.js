@@ -2,30 +2,101 @@ import { db } from "../connect.js";
  import bcrypt from "bcryptjs"; 
  import jwt from "jsonwebtoken";
 
+ const hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10); // Hash the password with salt rounds of 10
+};
 
 
-export const addToUniDomains = (req, res) => {
-    const { uniEmail, uniPass, uniName } = req.body;
+// UNIDOMAINS TABLE CRUD APIS
+
+// export const addToUniDomains = (req, res) => {
+//     const { uniEmail, uniPass, uniName } = req.body;
   
-    // Hash the uniPass before storing it in the database
-    const salt = bcrypt.genSaltSync(10);
-    const hashedUniPass = bcrypt.hashSync(uniPass, salt);
+//     // Hash the uniPass before storing it in the database
+//     const salt = bcrypt.genSaltSync(10);
+//     const hashedUniPass = bcrypt.hashSync(uniPass, salt);
   
-    // SQL query to insert into unidomains
-    const query = 'INSERT INTO unidomains (uniEmail, uniPass, uniName) VALUES (?, ?, ?)';
+//     // SQL query to insert into unidomains
+//     const query = 'INSERT INTO unidomains (uniEmail, uniPass, uniName) VALUES (?, ?, ?)';
   
-    // Execute the query and handle errors
-    db.query(query, [uniEmail, hashedUniPass, uniName], (err, result) => {
+//     // Execute the query and handle errors
+//     db.query(query, [uniEmail, hashedUniPass, uniName], (err, result) => {
+//       if (err) {
+//         console.error('Database error:', err);
+//         return res.status(500).json({ message: 'Error adding data to unidomains', error: err });
+//       }
+  
+//       // If successful, return a 200 response
+//       return res.status(200).json({ message: 'Data added successfully', result: result });
+//     });
+//   };
+
+
+
+// Get all unidomains
+export const getAllUniDomains = (req, res) => {
+  const sql = 'SELECT * FROM unidomains';
+  db.query(sql, (err, result) => {
       if (err) {
-        console.error('Database error:', err);
-        return res.status(500).json({ message: 'Error adding data to unidomains', error: err });
+          console.error('Error executing query:', err);
+          res.status(500).json({ error: 'Internal server error' });
+      } else {
+          res.status(200).json(result);
       }
-  
-      // If successful, return a 200 response
-      return res.status(200).json({ message: 'Data added successfully', result: result });
-    });
-  };
+  });
+};
 
+// Add a new unidomain
+export const addUniDomain = (req, res) => {
+  const { uniEmail, uniPass, uniName } = req.body;
+  const hashedPassword = hashPassword(uniPass);
+
+  const query = "INSERT INTO unidomains (uniEmail, uniPass, uniName) VALUES (?, ?, ?)";
+  db.query(query, [uniEmail, hashedPassword, uniName], (err, result) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      return res.status(200).json("UniDomain added successfully!");
+  });
+};
+
+// Update an existing unidomain
+export const updateUniDomain = (req, res) => {
+  const { idunidomains, uniEmail, uniPass, uniName } = req.body;
+  const hashedPassword = hashPassword(uniPass);
+
+  const query = "UPDATE unidomains SET uniEmail = ?, uniPass = ?, uniName = ? WHERE idunidomains = ?";
+  db.query(query, [uniEmail, hashedPassword, uniName, idunidomains], (err, result) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      return res.status(200).json("UniDomain updated successfully!");
+  });
+};
+
+// Delete an unidomain
+export const deleteUniDomain = (req, res) => {
+  const { idunidomains } = req.body;
+
+  const query = "DELETE FROM unidomains WHERE idunidomains = ?";
+  db.query(query, [idunidomains], (err, result) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          return res.status(500).json({ error: 'Internal server error' });
+      }
+
+      return res.status(200).json("UniDomain deleted successfully!");
+  });
+};
+
+
+
+
+// UNIDOMAINS TABLE CRUD APIS
 
 
 
@@ -51,9 +122,6 @@ export const getAllAdmins = (req, res) => {
 
 
 // Function to hash the password
-const hashPassword = (password) => {
-  return bcrypt.hashSync(password, 10); // Hash the password with salt rounds of 10
-};
 
 // Example query to insert data into the admins table
 export const addAdmin = (req, res) => {

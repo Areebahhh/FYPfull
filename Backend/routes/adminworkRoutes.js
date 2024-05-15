@@ -1,12 +1,17 @@
 import express from "express";
 import { 
 
-    addToUniDomains,
+    getAllUniDomains,
+    addUniDomain,
+    updateUniDomain,
+    deleteUniDomain,
 
     getAllAdmins,
     addAdmin,
     updateAdmin,
     deleteAdmin
+
+
 
 
 
@@ -16,12 +21,20 @@ import {
 
 const router = express.Router()
 
- router.post("/addToUniDomains", addToUniDomains)
 
+ router.get("/getAllUniDomains", getAllUniDomains)
+ router.post("/addUniDomain", addUniDomain)
+ router.post("/updateUniDomain", updateUniDomain)
+ router.post("/deleteUniDomain", deleteUniDomain)
+
+
+//  admin's api routes
  router.get('/getAllAdmins', getAllAdmins);
  router.post("/addAdmin", addAdmin)
  router.post("/updateAdmin", updateAdmin)
  router.post("/deleteAdmin", deleteAdmin)
+
+
 
 
 
