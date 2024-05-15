@@ -16,7 +16,8 @@ import appliedJobRoutes from "./routes/appliedJobRoutes.js"
 import interviewRoutes from "./routes/interviewRoutes.js"
 import savePostsRoutes from "./routes/savePostsRoutes.js"
 import notificationsRoutes from "./routes/notificationsRoutes.js"
-
+import portfolioRoutes from "./routes/portfolioRoutes.js"
+import adminworkRoutes from "./routes/adminworkRoutes.js"
 
 
 //middlewares
@@ -84,7 +85,9 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
  app.use("/api/interviews", interviewRoutes);
  app.use("/api/savePosts", savePostsRoutes);
  app.use("/api/notifications", notificationsRoutes);
-
+ app.use("/api/portfolio", portfolioRoutes);
+ app.use("/api/ad", portfolioRoutes);
+ app.use("/api/adminwork", adminworkRoutes)
 
 
 

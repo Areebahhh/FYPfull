@@ -13,7 +13,10 @@ export const AuthContextProvider = ({ children }) => {
       withCredentials: true,
     });
 
-     setCurrentUser(res.data)
+    console.log("response data", res.data)
+    setCurrentUser(res.data)
+    return res.data; 
+    // Return the user data to the caller
 
     // const login = () => {
     // setCurrentUser({id:1, 

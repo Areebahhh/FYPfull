@@ -1,0 +1,55 @@
+.PopupBody {
+    width: max-content;
+    padding: 12px 16px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 1px solid #E5EAF2;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    z-index: 1;
+  }
+  
+  .PopupBody.dark {
+    border-color: #434D5B;
+    background-color: #1C2025;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
+  }
+  
+  .Button {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    background-color: #007FFF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: white;
+    transition: all 150ms ease;
+    cursor: pointer;
+    border: 1px solid #007FFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1.5px 1px #3399FF, inset 0 -2px 1px #0072E5;
+  }
+  
+  .Button:hover {
+    background-color: #0072E5;
+  }
+  
+  .Button:active {
+    background-color: #0066CC;
+    box-shadow: none;
+  }
+  
+  .Button:focus-visible {
+    box-shadow: 0 0 0 4px #99CCFF;
+    outline: none;
+  }
+  
+  .Button.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  

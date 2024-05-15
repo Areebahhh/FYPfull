@@ -12,9 +12,12 @@ import Messages from "../../assets/10.png";
 import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
+import smoledit from "../../assets/smoledit.png"
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
+
+import portfolioIcon from "../../assets/portfoliosmol.png"
 
 const LeftBar = () => {
 
@@ -42,10 +45,25 @@ const LeftBar = () => {
             </Link>
 
           </div>
-          <div className="item">
+          {/* <div className="item">
             <img src={Friends} alt="" />
             <span>Friends</span>
+          </div> */}
+
+          <div className="item">
+            <img src={portfolioIcon} alt="" />
+            <Link to="/PortfolioPage" style={{ textDecoration: 'none', color: 'inherit' }} >Portfolio</Link>
+            {/* <span>Groups</span> */}
           </div>
+          
+
+          <div className="item">
+            <img src={smoledit} alt="" />
+            <Link to="/EditablePortfolio" style={{ textDecoration: 'none', color: 'inherit' }} >Edit Portfolio</Link>
+            {/* <span>Groups</span> */}
+          </div>
+
+
           <div className="item">
             <img src={Groups} alt="" />
             <Link to="/messenger"  style={{ textDecoration: 'none', color: 'inherit' }} >Messenger</Link>

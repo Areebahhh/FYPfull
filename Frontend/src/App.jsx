@@ -12,13 +12,19 @@ import RecruiterApplicationPage from './Pages/PagesLayout/RecruiterApplicationPa
 import RecruiterInterviewPage from './Pages/PagesLayout/RecruiterInterviewPage';
 import StudentInterviewPage from './Pages/PagesLayout/StudentInterviewPage';
 import SavedPage from './Pages/PagesLayout/StudentSavedPage';
+import Meow from './Pages/meow/Meow';
+import PortfolioPage from './portfolio/PortfolioPage';
+import EditablePortfolio from './portfolio/EditablePortfolio';
+import AdminPage from './admin/AdminPage'
+
 function App() {
   
   return (
     <>  
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login/>}></Route> 
+          {/* <Route path="/" element={<Login/>}></Route>  */}
+          <Route path="/" element={<Meow/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/profile/:userId" element={<ProfilePage/>}></Route>
           <Route path="/messenger" element={<Messenger/>}></Route>
@@ -30,13 +36,18 @@ function App() {
           <Route path="/studentJob" element={<StudentJobPage/>}></Route>
           <Route path="/studentAppliedJob" element={<StudentAppliedJobs/>}></Route>
           <Route path="/studentInterview" element={<StudentInterviewPage/>}></Route>
-
+          <Route path="/PortfolioPage" element={<PortfolioPage/>}></Route>
+          <Route path="/EditablePortfolio" element={<EditablePortfolio/>}></Route>
+         
 
           {/* recruiter routes   */}
           <Route path="/recruiterHome" element={<RecruiterHomePage/>}></Route> 
           <Route path="/recruiterJob" element={<RecruiterJobPage/>}></Route>
           <Route path="/recruiterApplication" element={<RecruiterApplicationPage/>}></Route>
           <Route path="/recruiterInterview" element={<RecruiterInterviewPage/>}></Route>
+
+          {/* admin routes */}
+          <Route path="/AdminPage" element={<AdminPage/>}></Route>
          
 
 
