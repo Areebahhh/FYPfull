@@ -4,6 +4,7 @@ import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import LogoutIcon from '@mui/icons-material/Logout';
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -37,25 +38,28 @@ const Navbar = () => {
   });
   
 
-  // if (isLoading) return <div>Loading notifications...</div>;
-  // if (error) return <div>Error fetching notifications: {error.message}</div>;
-
-  // //if there are no notifications, display a message
-  // if (!Array.isArray(notificationData) || notificationData.length === 0) {
-  //   return <div>No notifications</div>;
-  // }    
-  
+  const getHomeRoute = () => {
+    // Check the user's type and return the corresponding route
+    if (currentUser.userType === 'student') {
+      return '/studentHome';
+    } else if (currentUser.userType === 'recruiter') {
+      return '/recruiterHome';
+    }
+    return '/'; // Default route if type is not recognized
+  };
 
    
   return (
     <div className="navbar">
       <div className="left">
-        <Link to="/studentHome" style={{ textDecoration: "none" }}>
-          <span>WeConnect</span>
+        <Link to={getHomeRoute()} style={{ textDecoration: "none" }}>
+          <span>AcademyLink</span>
         </Link>
-        <Link to="/studentHome">
+        <Link to={getHomeRoute()}>
           <HomeOutlinedIcon style={{ color: 'inherit', textDecoration: 'none' }} />
         </Link>
+
+       
   
       {/* conditionally render the WbSunnyOutlinedIcon or DarkModeOutlinedIcon based on the darkMode value */}
 
@@ -94,11 +98,11 @@ const Navbar = () => {
             )}
         </div>
 
-        {/* <div className="icon" onClick={() => setOpen(!open)}>
+        <div className="icon">
           <div className="iconImg">
-            <EmailOutlinedIcon />
+          <LogoutIcon/>
           </div>
-        </div> */}
+        </div>
 
       </div>    
 

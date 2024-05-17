@@ -410,8 +410,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid #00008B;
+	background-color: #00008B;
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -534,9 +534,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background: #00008B;
+	background: -webkit-linear-gradient(to right, #00008B, #00008B);
+	background: linear-gradient(to right, #00008B, #00008B);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -731,7 +731,10 @@ footer a {
 
 <div className="form-container sign-in-container">
       <form onSubmit={handleSubmit}> 
-        <h1>Sign In</h1>
+        
+        <h1>AcademyLink</h1>
+        
+        <h3>Sign In</h3>
 
         <input
           type="email"
@@ -839,12 +842,12 @@ footer a {
       </div>
 
       <footer>
-        <p>
+        {/* <p>
           Created with <i className="fa fa-heart"></i> by
           <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
           - Read how I created this and how you can join the challenge
           <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-        </p>
+        </p> */}
       </footer>
     </>
   );

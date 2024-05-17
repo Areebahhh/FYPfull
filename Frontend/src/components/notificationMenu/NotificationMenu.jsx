@@ -1,7 +1,6 @@
 import { useState, useContext } from "react";
 import { makeRequest } from "../../axios";
 import "./notificationMenu.scss";
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import moment from "moment";

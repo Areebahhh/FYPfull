@@ -20,12 +20,35 @@ import { AuthContext } from '../context/authContext';
 function PortfolioPage() {
 
   const { currentUser } = useContext(AuthContext);
+
   const userid = currentUser.id;
 
   const userId = currentUser.id;
 
-  console.log("in portfolio", userId);
-  console.log("small userid: ", userid);
+//  //Id of current user coming from recruiter
+//  const { SentUserId} = useParams();
+
+
+//  useEffect(() => {
+//   // Check if SentUserId is present
+//   if (SentUserId ) {
+
+//     console.log("previous userId is", userId);
+//     console.log("previous userid is", userid);
+
+//     console.log("sent userid is ", SentUserId);
+    
+//     userId = SentUserId;
+//     userid = SentUserId;
+//   }
+// }, [SentUserId]); // Run this effect whenever SentUserIdchanges
+
+
+
+ 
+
+  // console.log("in portfolio", userId);
+  // console.log("small userid: ", userid);
 
   // ABOUT DATA FETCHING API WORK
   const [aboutData, setAboutData] = useState({

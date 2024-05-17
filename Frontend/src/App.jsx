@@ -37,6 +37,7 @@ function App() {
           <Route path="/studentAppliedJob" element={<StudentAppliedJobs/>}></Route>
           <Route path="/studentInterview" element={<StudentInterviewPage/>}></Route>
           <Route path="/PortfolioPage" element={<PortfolioPage/>}></Route>
+          <Route path="/PortfolioPage/:SentUserId" element={<PortfolioPage/>}></Route>
           <Route path="/EditablePortfolio" element={<EditablePortfolio/>}></Route>
          
 
