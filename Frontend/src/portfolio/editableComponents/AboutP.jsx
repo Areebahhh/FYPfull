@@ -331,7 +331,7 @@ useEffect(() => {
               style={{ border: 'none' }}
             />
             ·
-            <a href={`mailto:${aboutData.email}`}>
+            {/* <a href={`mailto:${aboutData.email}`}> */}
               <input
                 type="email"
                 name="email"
@@ -340,7 +340,7 @@ useEffect(() => {
                 onChange={handleChange}
                 style={{ border: 'none' }}
               />
-            </a>
+            {/* </a> */}
           </div>
 
           <p className="mb-5">

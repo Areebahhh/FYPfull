@@ -125,7 +125,7 @@ function AdminPage() {
           >
             <a href="">
               <i ></i>
-              {/* <FontAwesomeIcon icon={faTableCellsRowLock} /> */}
+              
               Users
             </a>
           </li>

@@ -48,10 +48,18 @@ const Navbar = () => {
 
    
   return (
+
+    <>
+
+    
+
+
+
+
     <div className="navbar">
       <div className="left">
         <Link to="/studentHome" style={{ textDecoration: "none" }}>
-          <span>WeConnect</span>
+          <span>AcademyLink</span>
         </Link>
         <Link to="/studentHome">
           <HomeOutlinedIcon style={{ color: 'inherit', textDecoration: 'none' }} />
@@ -77,15 +85,21 @@ const Navbar = () => {
       </div>
       <div className="right">
       
+
+
+        {/* Notifications modal */}
+
+        
       <div className="icons">
         
-        {/* Notifications modal */}
+        
+        
         
         <div className="icon"   
                 onClick={() => {
                   setOpenUpdate(true)
                 }}>
-          <div className="iconImg">
+          <div className="iconImg" >
             <NotificationsOutlinedIcon />
           </div>
            
@@ -94,13 +108,33 @@ const Navbar = () => {
             )}
         </div>
 
-        {/* <div className="icon" onClick={() => setOpen(!open)}>
-          <div className="iconImg">
-            <EmailOutlinedIcon />
-          </div>
-        </div> */}
+        
 
       </div>    
+
+
+      {/* Notifications modal */}
+
+{/* 
+      <div className="container">
+      <div className="interior">
+        <a className="btn" href="#open-modal">👋 Basic CSS-Only Modal</a>
+      </div>
+      <div id="open-modal" className="modal-window">
+        <div>
+          <a href="#" title="Close" className="modal-close">Close</a>
+          <h1>Voilà!</h1>
+          <div>A CSS-only modal based on the :target pseudo-class. Hope you find it helpful.</div>
+          <br />
+          Your new favorite eyedropper tool!
+        </div>
+      </div>
+    </div> */}
+
+
+
+
+
 
         <div className="user">
         {/* <Link  to={"/profile/" + currentUser.id} style={{ textDecoration: "none", color: "inherit" }} > */}
@@ -118,6 +152,10 @@ const Navbar = () => {
       {openUpdate && <NotificationMenu setOpenUpdate={setOpenUpdate}   />}
     
     </div>
+
+
+
+    </>
   );
 };
 

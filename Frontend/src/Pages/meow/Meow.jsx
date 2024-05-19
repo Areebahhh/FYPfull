@@ -402,7 +402,7 @@ span {
 }
 
 a {
-	color: #333;
+	color: #00008B;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
@@ -410,8 +410,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+  border: 1px solid #00008B; /* Changed to dark blue */
+  background-color: #00008B; /* Changed to dark blue */
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -454,7 +454,7 @@ input {
 }
 
 .container {
-	background-color: #fff;
+	background-color: #00008B;
 	border-radius: 10px;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
@@ -534,9 +534,9 @@ input {
 }
 
 .overlay {
-	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background: #00008B; 
+	background: -webkit-linear-gradient(to right, #00008B, #00008B);
+	background: linear-gradient(to right, #00008B, #00008B);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -651,7 +651,8 @@ footer a {
  
 <div className="form-container sign-up-container">
           <form onSubmit={handleRecruiterSubmit}>
-            <h1>Recruiter Sign-Up</h1>
+          <h1>AcademyLink</h1>
+            <h3>Recruiter Sign-Up</h3>
             <input
               type="text"
               placeholder="Username"
@@ -731,7 +732,8 @@ footer a {
 
 <div className="form-container sign-in-container">
       <form onSubmit={handleSubmit}> 
-        <h1>Sign In</h1>
+        <h1>AcademyLink</h1>
+        <h3>Sign In</h3>
 
         <input
           type="email"
@@ -770,7 +772,8 @@ footer a {
 
 <div className="form-container student-sign-up-container">
           <form onSubmit={handleStudentSubmit}>
-            <h1>Student Sign-Up</h1>
+          <h1>AcademyLink</h1>
+            <h3>Student Sign-Up</h3>
             <input
               type="text"
               placeholder="Username"
@@ -812,15 +815,16 @@ footer a {
 
 
 {/* LEFT SIDE PAGE FOR GOING TO LOGIN PAGE */}
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
+        <div className="overlay-container" >
+          <div className="overlay" >
+            <div className="overlay-panel overlay-left" >
               <h1>Welcome Back!</h1>
-              <p>To keep connected with us, please login with your personal info</p>
+              <p>If you already have an account, please sign in</p>
               <button className="ghost" ref={signInRef}>Sign In</button> 
             </div>
-            <div className="overlay-panel overlay-right">
-              <h1>Hello, Friend!</h1>
+            
+            <div className="overlay-panel overlay-right" >
+              <h1>Hello user!</h1>
               <p>Enter your personal details and start your journey with us</p>
               <button className="ghost" ref={RecruiterSignUpRef}>Sign Up as Recruiter</button>
               
@@ -839,12 +843,12 @@ footer a {
       </div>
 
       <footer>
-        <p>
+        {/* <p>
           Created with <i className="fa fa-heart"></i> by
           <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
           - Read how I created this and how you can join the challenge
           <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-        </p>
+        </p> */}
       </footer>
     </>
   );
