@@ -16,6 +16,7 @@ import Meow from './Pages/meow/Meow';
 import PortfolioPage from './portfolio/PortfolioPage';
 import EditablePortfolio from './portfolio/EditablePortfolio';
 import AdminPage from './admin/AdminPage'
+import CoordinatorPage from './coordinator/CoordinatorPage';
 
 function App() {
   
@@ -48,6 +49,9 @@ function App() {
 
           {/* admin routes */}
           <Route path="/AdminPage" element={<AdminPage/>}></Route>
+
+          {/* coordinator routes */}
+          <Route path="/CoordinatorPage" element={<CoordinatorPage/>}></Route>
          
 
 

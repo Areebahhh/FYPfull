@@ -24,6 +24,7 @@ import adminworkRoutes from "./routes/adminworkRoutes.js"
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
+
   next();
 });
 

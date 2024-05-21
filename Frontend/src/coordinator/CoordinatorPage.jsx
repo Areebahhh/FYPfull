@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 // import './adminPage.css'; // Include CSS styles
-import AdminsTableCrud from './AdminsTableCrud';
-import UniDomainsTableCrud from './UniDomainsTableCrud';
-import CreateTable from './CreateTable';
+// import AdminsTableCrud from './AdminsTableCrud';
+// import UniDomainsTableCrud from './UniDomainsTableCrud';
+// import CreateTable from './CreateTable';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faTableCellsRowLock } from '@fortawesome/free-solid-svg-icons';
 
 
-function AdminPage() {
+function CoordinatorPage() {
   const [activeTab, setActiveTab] = useState('tab1'); // State to manage the active tab
 
   const handleTabClick = (e, tabName) => {
@@ -141,7 +141,7 @@ function AdminPage() {
             onClick={(e) => handleTabClick(e, 'tab3')}
           >
             <a href="">
-              <i className=""></i>HEC Universities Table
+              <i className=""></i>University Domains
             </a>
           </li>
 
@@ -154,7 +154,7 @@ function AdminPage() {
             onClick={(e) => handleTabClick(e, 'tab4')}
           >
             <a href="">
-              <i className=""></i>University Coordinators Table
+              <i className=""></i>Create table test
             </a>
           </li>
 {/* 
@@ -192,7 +192,7 @@ function AdminPage() {
         >
           <h2 className="header">Admin Table</h2>
 
-          <AdminsTableCrud />
+          {/* <AdminsTableCrud /> */}
         </div>
 
 
@@ -214,9 +214,9 @@ function AdminPage() {
           id="tab3"
           style={{ display: activeTab === 'tab3' ? 'block' : 'none' }}
         >
-          <h2 className="header">HEC Universities Table</h2>
+          <h2 className="header">UNI</h2>
 
-          <UniDomainsTableCrud/>
+          {/* <UniDomainsTableCrud/> */}
 
         </div>
 
@@ -227,7 +227,7 @@ function AdminPage() {
         >
           <h2 className="header">TESTING CREATE TABLE</h2>
 
-          <CreateTable />
+          {/* <CreateTable /> */}
 
         </div>
 
@@ -255,4 +255,4 @@ function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default CoordinatorPage;

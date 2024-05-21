@@ -181,3 +181,23 @@ export const deleteAdmin = (req, res) => {
 
 // ADMIN TABLE CRUD APIS
 
+
+// createTableHandler.js
+export const createTable = (req, res) => {
+  const { tableName } = req.body;
+  if (!tableName) {
+      return res.status(400).send('Table name is required');
+  }
+
+  const sql = `CREATE TABLE ?? (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      uniName VARCHAR(255) NOT NULL,
+      FocalPerson VARCHAR(255) NOT NULL
+  )`;
+
+  // Use the db connection from the request object
+  db.query(sql, [tableName], (err, result) => {
+      if (err) return res.status(500).send(err);
+      res.send('Table created successfully');
+  });
+};
