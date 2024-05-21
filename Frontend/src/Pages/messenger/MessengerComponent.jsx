@@ -325,7 +325,7 @@ const { isLoading, error, data: fetchedConversations  } = useQuery({
       {`
       body {
         padding: 5%;
-        background-color: #F5F5F5;
+        background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(29, 67, 158),rgb(219, 239, 242));
         
       }
       

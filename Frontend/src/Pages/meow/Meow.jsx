@@ -369,8 +369,12 @@ const { login } = useContext(AuthContext); // Get login function from context
 	box-sizing: border-box;
 }
 
+
+
+
 body {
-	background: #f6f5f7;
+	
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(29, 67, 158),rgb(219, 239, 242));
 	display: flex;
 	justify-content: center;
 	align-items: center;
