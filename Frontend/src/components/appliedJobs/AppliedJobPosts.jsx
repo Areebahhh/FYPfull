@@ -23,7 +23,7 @@ const Posts = ({Puserid}) => {
       ) : data.length === 0 ? (
         <p className="no-applied-posts">You haven't applied to any jobs yet</p>
       ) : (
-        data.map((post) => <Post post={post} key={post.id} />)
+        data.map((post) => <Post post={post} key={post.Pid} />)
       )}
     </div>
   );

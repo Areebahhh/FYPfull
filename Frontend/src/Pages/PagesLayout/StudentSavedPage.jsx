@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../../components/navbar/Navbar";
 import LeftBar from "../../components/leftBar/LeftBar";
+import LeftBarRec from "../../components/RecruiterComponents/leftBarRecruiter/LeftBarRecruiter";
 import Home from "../RecruiterPages/homeRecruiter/RecruiterHome";
 import SavedPostPage from "../savedPost/SavedPostPage";
 import RightBar from "../../components/rightBar/RightBar";
@@ -27,7 +28,9 @@ export default function SavedPage() {
             <Navbar />
           
             <div style={{ display: "flex" }}>
-              <LeftBar />
+
+              {/* <LeftBar /> */}
+              {currentUser.userType === 'student' ? <LeftBar /> : <LeftBarRec />}
               <div style={{ flex: 6 }}>
               <SavedPostPage />
               </div>

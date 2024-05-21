@@ -15,6 +15,7 @@ import SavedPage from './Pages/PagesLayout/StudentSavedPage';
 import Meow from './Pages/meow/Meow';
 import PortfolioPage from './portfolio/PortfolioPage';
 import EditablePortfolio from './portfolio/EditablePortfolio';
+import PortfolioPageLayout from './Pages/PagesLayout/PortfolioPageLayout'
 import AdminPage from './admin/AdminPage'
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/studentAppliedJob" element={<StudentAppliedJobs/>}></Route>
           <Route path="/studentInterview" element={<StudentInterviewPage/>}></Route>
           <Route path="/PortfolioPage" element={<PortfolioPage/>}></Route>
+          <Route path="/PortfolioLayout" element={<PortfolioPageLayout/>}></Route>
           <Route path="/PortfolioPage/:SentUserId" element={<PortfolioPage/>}></Route>
           <Route path="/EditablePortfolio" element={<EditablePortfolio/>}></Route>
          

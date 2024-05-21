@@ -16,7 +16,7 @@ import { AuthContext } from "../../../context/authContext";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 
-const LeftBar = () => {
+const LeftBarRec = () => {
 
    const { currentUser } = useContext(AuthContext);
    const userid= currentUser.id
@@ -113,4 +113,4 @@ const LeftBar = () => {
   );
 };
 
-export default LeftBar;
+export default LeftBarRec;

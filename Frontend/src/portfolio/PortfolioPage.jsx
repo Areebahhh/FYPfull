@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
+import { useParams } from "react-router-dom";
 import axios from 'axios';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,9 +22,30 @@ function PortfolioPage() {
 
   const { currentUser } = useContext(AuthContext);
 
-  const userid = currentUser.id;
+  // const userid = currentUser.id;
 
-  const userId = currentUser.id;
+  // const userId = currentUser.id;
+
+    const { SentUserId} = useParams();
+
+
+  const [userId, setUserId] = useState(currentUser.id);
+
+  useEffect(() => {
+    if (SentUserId) {
+      console.log("Previous userId is", userId);
+      console.log("Sent userId is", SentUserId);
+      setUserId(SentUserId);
+    } else {
+      setUserId(currentUser.id);
+    }
+  }, [SentUserId, currentUser.id]);
+
+
+
+
+
+
 
 //  //Id of current user coming from recruiter
 //  const { SentUserId} = useParams();
@@ -67,9 +89,9 @@ function PortfolioPage() {
   const fetchAboutData = async () => {
     
     try {
-      console.log("in try fetchaboutdata", userid);
+      // console.log("in try fetchaboutdata", userid);
         // const response = await axios.get(`http://localhost:8800/api/portfolio/getAboutData/${userid}`);
-        const response = await makeRequest.get(`/portfolio/getAboutData/${userid}`);
+        const response = await makeRequest.get(`/portfolio/getAboutData/${userId}`);
         console.log("getaboutdata api ", response.data);
         setAboutData(response.data);
     } catch (error) {

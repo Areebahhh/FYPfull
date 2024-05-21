@@ -19,7 +19,7 @@ function AdminsTableCrud() {
         setIsAdding(false);
         setEditingIndex(-1);
     };
-
+    
     const handleSaveRow = () => {
         if (isAdding) {
             const newAdmin = { ...newRow };
