@@ -21,107 +21,60 @@ import { AuthContext } from '../context/authContext';
 
 function PortfolioPage() {
 
-  const { currentUser } = useContext(AuthContext);
-
-  // const userid = currentUser.id;
-
-  // const userId = currentUser.id;
-
-    const { SentUserId} = useParams();
-
-
-  const [userId, setUserId] = useState(currentUser.id);
-
-  useEffect(() => {
-    if (SentUserId) {
-      console.log("Previous userId is", userId);
-      console.log("Sent userId is", SentUserId);
-      setUserId(SentUserId);
-    } else {
-      setUserId(currentUser.id);
-    }
-  }, [SentUserId, currentUser.id]);
-
-
-
-
-
-
-
-//  //Id of current user coming from recruiter
-//  const { SentUserId} = useParams();
-
-
-//  useEffect(() => {
-//   // Check if SentUserId is present
-//   if (SentUserId ) {
-
-//     console.log("previous userId is", userId);
-//     console.log("previous userid is", userid);
-
-//     console.log("sent userid is ", SentUserId);
-    
-//     userId = SentUserId;
-//     userid = SentUserId;
-//   }
-// }, [SentUserId]); // Run this effect whenever SentUserIdchanges
-
-
-
- 
-
-  // console.log("in portfolio", userId);
-  // console.log("small userid: ", userid);
-
-  // ABOUT DATA FETCHING API WORK
-  const [aboutData, setAboutData] = useState({
-    fullname: '',
-    address: '',
-    contact_number: '',
-    email: '',
-    about_paragraph: '',
-    facebookLink: '', 
-    twitterLink: '', 
-    githubLink: '', 
-    linkedinLink: ''
-  });
-
-
-//new about logic
-
-
-
-const { 
-    isLoading: isLoadingAbout,
-    error: errorAbout,
-    data: dataAbout } = useQuery({
-    queryKey: ["about", userId],
-    queryFn: () =>  makeRequest.get(`/portfolio/getAboutData/${userId}`)
-    .then((res) => res.data),
-    enabled: !!userId, // Ensures the query is only executed when userId is truthy
-    refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
-    retry: 1, // Optional: Number of retries before failing the query
-  });
-
-
-
-
-  const fetchAboutData = async () => {
-    
-    try {
-      // console.log("in try fetchaboutdata", userid);
-        // const response = await axios.get(`http://localhost:8800/api/portfolio/getAboutData/${userid}`);
-        const response = await makeRequest.get(`/portfolio/getAboutData/${userId}`);
-        console.log("getaboutdata api ", response.data);
-        setAboutData(response.data);
-    } catch (error) {
-        console.error('Error fetching About data:', error);
-    }
-  };
+    const { currentUser } = useContext(AuthContext);
+    const { SentUserId } = useParams();
   
-  useEffect(() => {
-    fetchAboutData();
-  }, []);
+    const [userId, setUserId] = useState(null);
+  
+    useEffect(() => {
+      if (SentUserId) {
+        console.log("Previous userId is", userId);
+        console.log("Sent userId is", SentUserId);
+        setUserId(SentUserId);
+      } else {
+        console.log("in else");
+        setUserId(currentUser?.id);
+      }
+    }, [SentUserId, currentUser?.id]);
+  
+    // ABOUT DATA FETCHING API WORK
+    const fetchAboutData = async () => {
+      console.log("in fetchaboutdata", userId);
+      const response = await makeRequest.get(`/portfolio/getAboutData/${userId}`);
+      console.log("getaboutdata api ", response.data);
+      return response.data;
+    };
+  
+    const { isLoading, error, data: aboutData } = useQuery({
+        queryKey: ["aboutData", userId],
+        queryFn: fetchAboutData,
+        enabled: !!userId,
+        refetchOnWindowFocus: false,
+        retry: 1,
+      });
+
+    
+
+  
+    const [aboutDataState, setAboutData] = useState({
+      fullname: '',
+      address: '',
+      contact_number: '',
+      email: '',
+      about_paragraph: '',
+      facebookLink: '',
+      twitterLink: '',
+      githubLink: '',
+      linkedinLink: ''
+    });
+  
+    useEffect(() => {
+      if (aboutData) {
+        setAboutData(aboutData);
+      }
+    }, [aboutData]);
+  
+  
   
 
   let fblink = "";
@@ -134,114 +87,219 @@ const {
 
 
 
-
-
-
-
-  // EDUCATION DATA FETCHING API WORK
-  const [educationData, setEducationData] = useState([]); // State for holding education data
-
-  const fetchEducationData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8800/api/portfolio/getEducationData/${userId}`); // Fetching from API
-      setEducationData(response.data); // Storing in state
-    } catch (error) {
-      console.error('Error fetching education data:', error);
-    }
+// EDUCATION DATA FETCHING API WORK useQuery
+const fetchEducationData = async () => {
+    console.log("in fetchEducationData", userId);
+    const response = await makeRequest.get(`/portfolio/getEducationData/${userId}`);
+    console.log("getEducationData api ", response.data);
+    return response.data;
   };
+  
+  const { isLoadingEducation, errorEducation, data: educationData } = useQuery({
+    queryKey: ["educationData", userId],
+    queryFn: fetchEducationData,
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
 
-  // Fetch education data when component mounts
-  useEffect(() => {
-    fetchEducationData();
-  }, [userId]);
+// EDUCATION DATA FETCHING API WORK useQuery
 
+
+  //old code education
   // EDUCATION DATA FETCHING API WORK
 
+//   const [educationData, setEducationData] = useState([]); // State for holding education data
+
+//   const fetchEducationData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:8800/api/portfolio/getEducationData/${userId}`); // Fetching from API
+//       setEducationData(response.data); // Storing in state
+//     } catch (error) {
+//       console.error('Error fetching education data:', error);
+//     }
+//   };
+
+//   // Fetch education data when component mounts
+//   useEffect(() => {
+//     fetchEducationData();
+//   }, [userId]);
+
+  // EDUCATION DATA FETCHING API WORK
+  //old code education
 
 
 
 
   //EXPERIENCE DATA FETCHING API WORK
-  // State to store experience data
-  const [experienceData, setExperienceData] = useState([]); 
 
-  // Function to fetch experience data
-  const fetchExperienceData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8800/api/portfolio/getExperienceData/${userId}`); // API endpoint
-      setExperienceData(response.data); // Store fetched data in state
-    } catch (error) {
-      console.error('Error fetching experience data:', error);
-    }
+// EXPERIENCE DATA FETCHING API WORK UseQuery
+const fetchExperienceData = async () => {
+    console.log("in fetchExperienceData", userId);
+    const response = await makeRequest.get(`/portfolio/getExperienceData/${userId}`);
+    console.log("getExperienceData api ", response.data);
+    return response.data;
   };
+  
+  const { isLoadingExperience, errorExperience, data: experienceData } = useQuery({
+    queryKey: ["experienceData", userId],
+    queryFn: fetchExperienceData,
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+  
 
-  useEffect(() => {
-    fetchExperienceData(); // Fetch experience data when the component mounts
-  }, [userId]);
+
+
+//   // State to store experience data
+//   const [experienceData, setExperienceData] = useState([]); 
+
+//   // Function to fetch experience data
+//   const fetchExperienceData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:8800/api/portfolio/getExperienceData/${userId}`); // API endpoint
+//       setExperienceData(response.data); // Store fetched data in state
+//     } catch (error) {
+//       console.error('Error fetching experience data:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchExperienceData(); // Fetch experience data when the component mounts
+//   }, [userId]);
   //EXPERIENCE DATA FETCHING API WORK
 
 
+
+
+
+
+
   //CERTIFICATIONS DATA FETCHING API WORK
-  const [certificationsData, setCertificationsData] = useState([]); // State for Certifications section
 
-  // Function to fetch Certifications data
-  const fetchCertificationsData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8800/api/portfolio/getCertificationsData/${userId}`);
-      setCertificationsData(response.data); // Store fetched Certifications data
-    } catch (error) {
-      console.error('Error fetching Certifications data:', error);
-    }
+
+// CERTIFICATIONS DATA FETCHING API WORK UseQuery
+const fetchCertificationsData = async () => {
+    console.log("in fetchCertificationsData", userId);
+    const response = await makeRequest.get(`/portfolio/getCertificationsData/${userId}`);
+    console.log("getCertificationsData api ", response.data);
+    return response.data;
   };
+  
+  const { isLoadingCertifications, errorCertifications, data: certificationsData } = useQuery({
+    queryKey: ["certificationsData", userId],
+    queryFn: fetchCertificationsData,
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+  
 
-  // Fetch Certifications data when the component mounts
-  useEffect(() => {
-    fetchCertificationsData(); // Fetch Certifications data on component mount
-  }, [userId]);
+
+//   const [certificationsData, setCertificationsData] = useState([]); // State for Certifications section
+
+//   // Function to fetch Certifications data
+//   const fetchCertificationsData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:8800/api/portfolio/getCertificationsData/${userId}`);
+//       setCertificationsData(response.data); // Store fetched Certifications data
+//     } catch (error) {
+//       console.error('Error fetching Certifications data:', error);
+//     }
+//   };
+
+//   // Fetch Certifications data when the component mounts
+//   useEffect(() => {
+//     fetchCertificationsData(); // Fetch Certifications data on component mount
+//   }, [userId]);
+
   //CERTIFICATIONS DATA FETCHING API WORK
 
 
 
   //AWARDS DATA FETCHING API WORK
-  // State to store awards data
-  const [awardsData, setAwardsData] = useState([]);
 
-  // Function to fetch awards data
-  const fetchAwardsData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8800/api/portfolio/getAwardsData/${userId}`); // Fetch awards data
-      setAwardsData(response.data); // Store fetched data in state
-    } catch (error) {
-      console.error('Error fetching awards data:', error);
-    }
+// AWARDS DATA FETCHING API WORK
+const fetchAwardsData = async () => {
+    console.log("in fetchAwardsData", userId);
+    const response = await makeRequest.get(`/portfolio/getAwardsData/${userId}`);
+    console.log("getAwardsData api ", response.data);
+    return response.data;
   };
+  
+  const { isLoadingAwards, errorAwards, data: awardsData } = useQuery({
+    queryKey: ["awardsData", userId],
+    queryFn: fetchAwardsData,
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+  
 
-  useEffect(() => {
-    fetchAwardsData(); // Fetch awards data when the component mounts
-  }, [userId]);
+
+//   // State to store awards data
+//   const [awardsData, setAwardsData] = useState([]);
+
+//   // Function to fetch awards data
+//   const fetchAwardsData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:8800/api/portfolio/getAwardsData/${userId}`); // Fetch awards data
+//       setAwardsData(response.data); // Store fetched data in state
+//     } catch (error) {
+//       console.error('Error fetching awards data:', error);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchAwardsData(); // Fetch awards data when the component mounts
+//   }, [userId]);
   //AWARDS DATA FETCHING API WORK
 
 
 
   //INTERESTS DATA FETCHING API WORK
-  const [interestsData, setInterestsData] = useState([]); // State to store fetched Interests data
 
-  const fetchInterestsData = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8800/api/portfolio/getInterestsData/${userId}`); // Fetching from API
-      setInterestsData(response.data); // Store fetched data in state
-    } catch (error) {
-      console.error('Error fetching interests data:', error);
-    }
+
+// INTERESTS DATA FETCHING API WORK
+const fetchInterestsData = async () => {
+    console.log("in fetchInterestsData", userId);
+    const response = await makeRequest.get(`/portfolio/getInterestsData/${userId}`);
+    console.log("getInterestsData api ", response.data);
+    return response.data;
   };
   
-  // Fetch Interests data when the component mounts
-  useEffect(() => {
-    fetchInterestsData(); // Fetch Interests data when component mounts
-  }, [userId]);
+  const { isLoadingInterests, errorInterests, data: interestsData } = useQuery({
+    queryKey: ["interestsData", userId],
+    queryFn: fetchInterestsData,
+    enabled: !!userId,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+  
+
+
+
+
+//   const [interestsData, setInterestsData] = useState([]); // State to store fetched Interests data
+
+//   const fetchInterestsData = async () => {
+//     try {
+//       const response = await axios.get(`http://localhost:8800/api/portfolio/getInterestsData/${userId}`); // Fetching from API
+//       setInterestsData(response.data); // Store fetched data in state
+//     } catch (error) {
+//       console.error('Error fetching interests data:', error);
+//     }
+//   };
+  
+//   // Fetch Interests data when the component mounts
+//   useEffect(() => {
+//     fetchInterestsData(); // Fetch Interests data when component mounts
+//   }, [userId]);
   
   //INTERESTS DATA FETCHING API WORK
   
+
 
 
   // FETCHING AVAILABLE SECTION IDS OF PORTFOLIO FOR CURRENT USER
@@ -266,6 +324,20 @@ const {
 
 
 
+
+
+  const {
+    isLoading: isLoadingUser,
+    error: errorUser,
+    data: dataUser,
+  } = useQuery({
+    queryKey: ["user", userId],
+    queryFn: () =>
+      makeRequest.get(`/users/find/${userId}`).then((res) => res.data),
+    enabled: !!userId, // Ensures the query is only executed when postId is truthy
+    refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
+    retry: 1, // Optional: Number of retries before failing the query
+  });
 
 
 
@@ -343,12 +415,20 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
       <span className="d-none d-lg-block">
         
         {/* side navbar profile img */}
+
+        { errorUser && <div>Error fetching user data</div>}
+        {isLoadingUser && <div>Loading...</div>}
+      
         <img className="img-fluid img-profile rounded-circle mx-auto mb-2" 
         // src="img/profile.jpg" 
         // src='https://images.pexels.com/photos/3792581/pexels-photo-3792581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
         // alt='img' />
 
-        src={"/upload/" + currentUser.profilePic} alt="" />
+
+     
+
+        //  src={"/upload/" + currentUser.profilePic} alt="" />
+          src={"/upload/" + dataUser?.profilePic} alt="" /> 
 
 
 
@@ -426,127 +506,119 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
 
 
 
-    {/* ABOUT SECTION */}
-    {availableSections.includes("about") && (
-    <section className="resume-section p-3 p-lg-5 d-flex d-column" id="about">
-      <div className="my-auto">
-        <h1 className="mb-0">
-          <span>
-          {aboutData.fullname}
-            </span>
-        </h1>
-        <div className="subheading mb-5">
-          {aboutData.address}
-          · 
-          {aboutData.contact_number}
-          ·
-          <a href="mailto:name@email.com">
-            {aboutData.email}
-            </a>
-        </div>
-        <p className="mb-5">
-          {aboutData.about_paragraph}
-        </p>
+{/* ABOUT SECTION */}
+{error && <div>Error fetching data</div>}
+      {isLoading && <div>Loading...</div>}
+{availableSections.includes("about") && (
+        <section className="resume-section p-3 p-lg-5 d-flex d-column" id="about">
+          <div className="my-auto">
+            <h1 className="mb-0">
+              <span>{aboutDataState.fullname}</span>
+            </h1>
+            <div className="subheading mb-5">
+              {aboutDataState.address} · {aboutDataState.contact_number} ·
+              <a href={`mailto:${aboutDataState.email}`}>
+                {aboutDataState.email}
+              </a>
+            </div>
+            <p className="mb-5">{aboutDataState.about_paragraph}</p>
 
+            {/* social links checking whether user has link in db or not and which link */}
+            {aboutDataState.facebookLink !== "" && (
+              <ul className="list-inline list-social-icons mb-0">
+                <li className="list-inline-item">
+                  <a href={aboutDataState.facebookLink}>
+                    <span className="fa-stack fa-lg">
+                      <i className="fa fa-circle fa-stack-2x" />
+                      <i className="fa fa-facebook fa-stack-1x fa-inverse" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            )}
 
-{/* social links checking whether user has link in db or not and which link */}
-        {aboutData.facebookLink !== null && (
+            {aboutDataState.twitterLink !== "" && (
+              <ul className="list-inline list-social-icons mb-0">
+                <li className="list-inline-item">
+                  <a href={aboutDataState.twitterLink}>
+                    <span className="fa-stack fa-lg">
+                      <i className="fa fa-circle fa-stack-2x" />
+                      <i className="fa fa-twitter fa-stack-1x fa-inverse" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            )}
 
+            {aboutDataState.linkedinLink !== "" && (
+              <ul className="list-inline list-social-icons mb-0">
+                <li className="list-inline-item">
+                  <a href={aboutDataState.linkedinLink}>
+                    <span className="fa-stack fa-lg">
+                      <i className="fa fa-circle fa-stack-2x" />
+                      <i className="fa fa-linkedin fa-stack-1x fa-inverse" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            )}
 
-        console.log("in about link frontend"),
-        fblink = aboutData.facebookLink,
-        console.log("fblink: ", fblink)
-
-
-        )}
-
-{aboutData.twitterLink !== null && (
-
-console.log("in about twitter link frontend"),
-twitterlink = aboutData.twitterLink,
-console.log("twitterlink: ", twitterlink)
-
-)}
-
-{aboutData.linkedinLink !== null && (
-
-console.log("in about linkedin link frontend"),
-linkedinlink = aboutData.linkedinLink,
-console.log("linkedinlink: ", linkedinlink)
-
-)}
-
-{aboutData.githubLink !== null && (
-
-console.log("in about github link frontend"),
-githublink = aboutData.githubLink,
-console.log("githublink: ", githublink)
-
-)}
-
-{/* social links checking whether user has link in db or not and which link */}
-
-
-
-        <ul className="list-inline list-social-icons mb-0">
-
-        {fblink !== "" && (
-          <li className="list-inline-item">
-            <a href={fblink}>
-              <span className="fa-stack fa-lg">
-                <i className="fa fa-circle fa-stack-2x" />
-                <i className="fa fa-facebook fa-stack-1x fa-inverse" />
-              </span>
-            </a>
-          </li>
-        )}
-
-        {twitterlink !== "" && (
-          <li className="list-inline-item">
-            <a href={twitterlink}>
-              <span className="fa-stack fa-lg">
-                <i className="fa fa-circle fa-stack-2x" />
-                <i className="fa fa-twitter fa-stack-1x fa-inverse" />
-              </span>
-            </a>
-          </li>
-        )}
-
-        {linkedinlink !== "" && (
-          <li className="list-inline-item">
-            <a href={linkedinlink}>
-              <span className="fa-stack fa-lg">
-                <i className="fa fa-circle fa-stack-2x" />
-                <i className="fa fa-linkedin fa-stack-1x fa-inverse" />
-              </span>
-            </a>
-          </li>
-        )}
-
-        {githublink !== "" && (
-          <li className="list-inline-item">
-            <a href={githublink}>
-              <span className="fa-stack fa-lg">
-                <i className="fa fa-circle fa-stack-2x" />
-                <i className="fa fa-github fa-stack-1x fa-inverse" />
-              </span>
-            </a>
-          </li>
-        )}
-
-
-        </ul>
-      </div>
-    </section>
-    )}
-    {/* ABOUT SECTION */}
+            {aboutDataState.githubLink !== "" && (
+              <ul className="list-inline list-social-icons mb-0">
+                <li className="list-inline-item">
+                  <a href={aboutDataState.githubLink}>
+                    <span className="fa-stack fa-lg">
+                      <i className="fa fa-circle fa-stack-2x" />
+                      <i className="fa fa-github fa-stack-1x fa-inverse" />
+                    </span>
+                  </a>
+                </li>
+              </ul>
+            )}
+          </div>
+        </section>
+      )}
+      {/* ABOUT SECTION */}
 
 
 
 
 
     {/* EXPERIENCE SECTION */}
-   
+
+
+{/* EXPERIENCE SECTION */}
+{availableSections.includes("experience")  && experienceData &&(
+  <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
+    <div className="my-auto">
+      <h2 className="mb-5">Experience</h2>
+
+      {isLoadingExperience ? (
+        <div>Loading...</div>
+      ) : errorExperience ? (
+        <div>Error fetching experience data</div>
+      ) : (
+        experienceData.map((item) => (
+          <div key={item.experienceSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
+            <div className="resume-content mr-auto">
+              <h3 className="mb-0">{item.jobTitle}</h3>
+              <div className="subheading mb-3">{item.jobCompany}</div>
+              <p>{item.jobDescription}</p>
+            </div>
+            <div className="resume-date text-md-right">
+              <span className="text-primary">{item.jobDate}</span>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  </section>
+)}
+{/* EXPERIENCE SECTION */}
+
+
+
+{/*    
     {availableSections.includes("experience") && (
 <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="experience">
         <div className="my-auto">
@@ -566,7 +638,7 @@ console.log("githublink: ", githublink)
           ))}
         </div>
       </section>
-    )}
+    )} */}
 
 
     {/* EXPERIENCE SECTION */}
@@ -576,29 +648,72 @@ console.log("githublink: ", githublink)
 
 
 
-    {/* EDUCATION SECTION */}
-    
+ {/* EDUCATION SECTION NEW */}
 
-    {availableSections.includes("education") && (
-<section className="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
-        <div className="my-auto">
-          <h2 className="mb-5">Education</h2>
+ {availableSections.includes("education") &&  educationData && (
+  <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+    <div className="my-auto">
+      <h2 className="mb-5">Education</h2>
 
-          {educationData.map((item) => (
-            <div key={item.educationSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
-              <div className="resume-content mr-auto">
-                <h3 className="mb-0">{item.universityName}</h3>
-                <div className="subheading mb-3">{item.degreeType}</div>
-                <div>{item.courseName}</div>
-                <p>CGPA: {item.cgpa}</p>
-              </div>
-              <div className="resume-date text-md-right">
-                <span className="text-primary">{item.degreeDate}</span>
-              </div>
+      {isLoadingEducation ? (
+        <div>Loading...</div>
+      ) : errorEducation ? (
+        <div>Error fetching education data</div>
+      ) : (
+        educationData.map((item) => (
+          <div key={item.educationSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
+            <div className="resume-content mr-auto">
+              <h3 className="mb-0">{item.universityName}</h3>
+              <div className="subheading mb-3">{item.degreeType}</div>
+              <div>{item.courseName}</div>
+              <p>CGPA: {item.cgpa}</p>
             </div>
-          ))}
-        </div>
-      </section>)}
+            <div className="resume-date text-md-right">
+              <span className="text-primary">{item.degreeDate}</span>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
+  </section>
+)}
+
+
+
+ {/* EDUCATION SECTION NEW */}
+
+
+
+
+
+
+
+
+
+
+    {/* old EDUCATION SECTION */}
+    
+{/* 
+        {availableSections.includes("education") && (
+    <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="education">
+            <div className="my-auto">
+            <h2 className="mb-5">Education</h2>
+
+            {educationData.map((item) => (
+                <div key={item.educationSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
+                <div className="resume-content mr-auto">
+                    <h3 className="mb-0">{item.universityName}</h3>
+                    <div className="subheading mb-3">{item.degreeType}</div>
+                    <div>{item.courseName}</div>
+                    <p>CGPA: {item.cgpa}</p>
+                </div>
+                <div className="resume-date text-md-right">
+                    <span className="text-primary">{item.degreeDate}</span>
+                </div>
+                </div>
+            ))}
+            </div>
+        </section>)} */}
 
     {/* EDUCATION SECTION */}
 
@@ -670,20 +785,48 @@ console.log("githublink: ", githublink)
 
 
     {/* INTERESTS SECTION */}
-    {availableSections.includes("interests") && (
+
+
+{/* INTERESTS SECTION */}
+{availableSections.includes("interests") && interestsData && (
+  <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
+    <div className="my-auto">
+      <h2 className="mb-5">Interests</h2>
+
+      {isLoadingInterests ? (
+        <div>Loading...</div>
+      ) : errorInterests ? (
+        <div>Error fetching interests data</div>
+      ) : (
+        interestsData.map((item) => (
+          <div key={item.interestsSectionID} className="mb-5">
+            <p>{item.paragraph1}</p> {/* Display the fetched data */}
+            <p className="mb-0">{item.paragraph2}</p> {/* Display the fetched data */}
+          </div>
+        ))
+      )}
+
+    </div>
+  </section>
+)}
+{/* INTERESTS SECTION */}
+
+
+
+    {/* {availableSections.includes("interests") && (
 <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="interests">
   <div className="my-auto">
     <h2 className="mb-5">Interests</h2>
     {interestsData.map((item) => (
       <div key={item.interestsSectionID} className="mb-5">
-        <p>{item.paragraph1}</p> {/* Display the fetched data */}
-        <p className="mb-0">{item.paragraph2}</p> {/* Display the fetched data */}
+        <p>{item.paragraph1}</p> 
+        <p className="mb-0">{item.paragraph2}</p> 
       </div>
     ))}
   </div>
 </section>
     )}
-
+ */}
 
 
 
@@ -693,7 +836,43 @@ console.log("githublink: ", githublink)
 
 
     {/* AWARDS  */}
-    {availableSections.includes("awards") && (
+
+
+{/* AWARDS SECTION */}
+{availableSections.includes("awards") && (
+  <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
+    <div className="my-auto">
+      <h2 className="mb-5">Awards</h2>
+
+      {isLoadingAwards ? (
+        <div>Loading...</div>
+      ) : errorAwards ? (
+        <div>Error fetching awards data</div>
+      ) : (
+        awardsData.map((item) => (
+          <div key={item.awardsSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
+            <ul className="fa-ul mb-0">
+              <li>
+                <i className="fa-li fa fa-trophy text-warning" />
+                {item.awardTitle}
+              </li>
+            </ul>
+            <br />
+            <p>{item.awardDescription}</p>
+          </div>
+        ))
+      )}
+
+    </div>
+  </section>
+)}
+{/* AWARDS SECTION */}
+
+
+
+
+
+    {/* {availableSections.includes("awards") && (
     <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="awards">
         <div className="my-auto">
           <h2 className="mb-5">Awards</h2>
@@ -712,11 +891,41 @@ console.log("githublink: ", githublink)
 
         </div>
       </section>
-    )}
+    )} */}
     {/* AWARDS*/}
 
 
-    {/* certificaitons */}
+
+
+{/* CERTIFICATIONS SECTION */}
+{availableSections.includes("certifications") && (
+  <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="certifications">
+    <div className="my-auto">
+      <h2 className="mb-5">Certifications</h2>
+      {isLoadingCertifications ? (
+        <div>Loading...</div>
+      ) : errorCertifications ? (
+        <div>Error fetching certifications data</div>
+      ) : (
+        certificationsData.map((certification) => (
+          <div key={certification.certificationsID}>
+            <ul className="fa-ul mb-0">
+              <li>
+                <FontAwesomeIcon icon={faCertificate} style={{ color: '#dadd36' }} />
+                {certification.certificationName}
+              </li>
+            </ul>
+            <p>{certification.certificationDescription}</p>
+          </div>
+        ))
+      )}
+    </div>
+  </section>
+)}
+{/* CERTIFICATIONS SECTION */}
+
+
+    {/* certificaitons
     {availableSections.includes("certifications") && (
     <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="certifications">
     <div className="my-auto">
@@ -734,7 +943,7 @@ console.log("githublink: ", githublink)
           ))}
         </div>
     </section> 
-    )}
+    )} */}
 
 
 

@@ -42,6 +42,7 @@ function App() {
           <Route path="/PortfolioPage" element={<PortfolioPage/>}></Route>
           {/* testing */}
           <Route path="/PortfolioPageFull" element={<PortfolioPageFull/>}></Route>
+          <Route path="/PortfolioPageFull/:SentUserId" element={<PortfolioPageFull/>}></Route>
           {/* testing */}
           <Route path="/PortfolioLayout" element={<PortfolioPageLayout/>}></Route>
           <Route path="/PortfolioPage/:SentUserId" element={<PortfolioPage/>}></Route>

@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../../axios";
-import { useContext,useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import { AuthContext } from "../../../context/authContext";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import "./jobApplicationsComponent.scss";
 import InterviewRecruiterModal from "../interviewRecruiterModal/InterviewRecruiterModal";
 import axios from "axios";
-
 
 const JobApplicationsComponent = () => {
   const { currentUser } = useContext(AuthContext);
@@ -27,9 +27,9 @@ const JobApplicationsComponent = () => {
 
   //for deleting a job post
   const deleteMutation = useMutation({
-    mutationFn: (Pid) => makeRequest.delete(`/posts/${Pid}`), 
+    mutationFn: (Pid) => makeRequest.delete(`/posts/${Pid}`),
     onSuccess: () => {
-      queryClient.invalidateQueries(["posts"]); 
+      queryClient.invalidateQueries(["posts"]);
     },
   });
 
@@ -56,7 +56,7 @@ const JobApplicationsComponent = () => {
                   <img src={`/upload/${post.profilePic}`} alt="" />
                   <div className="details">
                     <span className="name">{post.name}</span>
-                    
+
                     <span className="date">
                       {moment(post.createdAt).fromNow()}
                     </span>
@@ -88,11 +88,9 @@ const JobApplicationsComponent = () => {
               <h4>Applicants:</h4>
 
               {/* Display the list of users who have applied to the post */}
-              
 
               {/* calling the ApplicantsForPost component by passing the current post id */}
               <ApplicantsForPost postId={post.Pid} />
-
             </div>
           </div>
         ))}
@@ -100,12 +98,10 @@ const JobApplicationsComponent = () => {
   );
 };
 
-
-
 //ApplicantsForPost component
 const ApplicantsForPost = ({ postId }) => {
-
   const queryClient = useQueryClient();
+  let navigate = useNavigate();
 
   //variable for opening the update modal
   const [openUpdate, setOpenUpdate] = useState(false);
@@ -113,67 +109,67 @@ const ApplicantsForPost = ({ postId }) => {
   //for storing scheduled interviews of the current post for logic of scheduled interview button
   const [scheduledInterviews, setScheduledInterviews] = useState([]);
 
-    //variable for storing the applicant object to pass in the update modal
-    const [applicantObj, setApplicantObj] = useState(null);
+  //variable for storing the applicant object to pass in the update modal
+  const [applicantObj, setApplicantObj] = useState(null);
 
-    const rejectApplicationMutation = useMutation({
-      mutationFn: ({ userId, postId }) => makeRequest.delete(`/jobs/reject?userId=${userId}&postId=${postId}`)
+  const rejectApplicationMutation = useMutation({
+    mutationFn: ({ userId, postId }) =>
+      makeRequest
+        .delete(`/jobs/reject?userId=${userId}&postId=${postId}`)
         .then(() => {
           // Send notification after successful rejection
-        
-            makeRequest.post("/notifications", {
-              postId: postId,
-              receiverId: userId,
-              type: 6, // 6 represents a rejection notification
-            });
-         
+
+          makeRequest.post("/notifications", {
+            postId: postId,
+            receiverId: userId,
+            type: 6, // 6 represents a rejection notification
+          });
         }),
-      onSuccess: () => {
-        queryClient.invalidateQueries(["posts"]);
-      },
-    });
-    
-  
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   //for rejecting an application by removing the entry from the appliedjobs table
   const handleRejectApplication = (userId, postId) => {
     rejectApplicationMutation.mutate({ userId, postId });
   };
 
-
-
-
   //for fetching all users who have applied to the current post
 
-  const { isLoading, error, data: applicantsData } = useQuery({
+  const {
+    isLoading,
+    error,
+    data: applicantsData,
+  } = useQuery({
     queryKey: ["applicants", postId],
-    queryFn: () => makeRequest.get(`/jobs/users?postId=${postId}`).then((res) => res.data),
+    queryFn: () =>
+      makeRequest.get(`/jobs/users?postId=${postId}`).then((res) => res.data),
     enabled: !!postId, // Ensures the query is only executed when postId is truthy
     refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
     retry: 1, // Optional: Number of retries before failing the query
   });
 
-
   useEffect(() => {
     // Fetch scheduled interview dates and times for the current post
     const fetchScheduledInterviews = async () => {
       try {
-        const response = await makeRequest.get(`/interviews/post?postId=${postId}`);
-        setScheduledInterviews(response.data.map(interview => interview.studentid));
+        const response = await makeRequest.get(
+          `/interviews/post?postId=${postId}`
+        );
+        setScheduledInterviews(
+          response.data.map((interview) => interview.studentid)
+        );
       } catch (error) {
-        console.error('Error fetching scheduled interviews:', error);
+        console.error("Error fetching scheduled interviews:", error);
       }
     };
 
-    if (postId ) {
+    if (postId) {
       fetchScheduledInterviews();
       // console.log(scheduledInterviews);
     }
-
-  },  [postId, openUpdate]);
-
-
-
-
+  }, [postId, openUpdate]);
 
   if (isLoading) return <div>Loading applicants...</div>;
   if (error) return <div>Error fetching applicants: {error.message}</div>;
@@ -182,8 +178,6 @@ const ApplicantsForPost = ({ postId }) => {
   if (!Array.isArray(applicantsData) || applicantsData.length === 0) {
     return <div>Currently no applications</div>;
   }
-
-
 
   return (
     <div>
@@ -199,48 +193,50 @@ const ApplicantsForPost = ({ postId }) => {
               </span> */}
 
               <div className="applicantButtons">
-                
-
-
-
-                
-                
-                
-                <button>View profile</button>
-
-                
-
-
-
-
+                <button
+                  onClick={() => navigate(`/PortfolioPageFull/${applicant.id}`)}
+                >
+                  View profile
+                </button>
 
                 {!scheduledInterviews.includes(applicant.id) ? (
-                  <button onClick={() => {
-                    setOpenUpdate(true)
-                    setApplicantObj(applicant)
-                  }}>Schedule interview</button>
+                  <button
+                    onClick={() => {
+                      setOpenUpdate(true);
+                      setApplicantObj(applicant);
+                    }}
+                  >
+                    Schedule interview
+                  </button>
                 ) : (
-                  <button style={{ backgroundColor: "yellow", color: "black" }} disabled >Interview Scheduled</button>
+                  <button
+                    style={{ backgroundColor: "yellow", color: "black" }}
+                    disabled
+                  >
+                    Interview Scheduled
+                  </button>
                 )}
-                
-                <button 
-                onClick={() => handleRejectApplication(applicant.id, postId)}
-                > Reject</button>
 
+                <button
+                  onClick={() => handleRejectApplication(applicant.id, postId)}
+                >
+                  {" "}
+                  Reject
+                </button>
               </div>
-
-           
-
             </div>
           </div>
-          {openUpdate && <InterviewRecruiterModal  setOpenUpdate={setOpenUpdate}  postId={postId} user={applicantObj} />}
-        </div>  
+          {openUpdate && (
+            <InterviewRecruiterModal
+              setOpenUpdate={setOpenUpdate}
+              postId={postId}
+              user={applicantObj}
+            />
+          )}
+        </div>
       ))}
     </div>
   );
 };
-
-
-
 
 export default JobApplicationsComponent;
