@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,12 +34,10 @@ function PortfolioPage() {
 
   useEffect(() => {
     if (SentUserId) {
-      console.log("in if ");
       console.log("Previous userId is", userId);
       console.log("Sent userId is", SentUserId);
       setUserId(SentUserId);
     } else {
-      console.log("in else");
       setUserId(currentUser.id);
     }
   }, [SentUserId, currentUser.id]);
@@ -88,14 +87,29 @@ function PortfolioPage() {
   });
 
 
-  // useEffect(() => {
-  //   console.log("In portfolio page after setting", userId);
-  // }, []);
+//new about logic
+
+
+
+const { 
+    isLoading: isLoadingAbout,
+    error: errorAbout,
+    data: dataAbout } = useQuery({
+    queryKey: ["about", userId],
+    queryFn: () =>  makeRequest.get(`/portfolio/getAboutData/${userId}`)
+    .then((res) => res.data),
+    enabled: !!userId, // Ensures the query is only executed when userId is truthy
+    refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
+    retry: 1, // Optional: Number of retries before failing the query
+  });
+
+
+
 
   const fetchAboutData = async () => {
     
     try {
-       console.log("in try fetchaboutdata", userId);
+      // console.log("in try fetchaboutdata", userid);
         // const response = await axios.get(`http://localhost:8800/api/portfolio/getAboutData/${userid}`);
         const response = await makeRequest.get(`/portfolio/getAboutData/${userId}`);
         console.log("getaboutdata api ", response.data);

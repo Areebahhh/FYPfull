@@ -31,17 +31,17 @@ const Post = ({ post }) => {
 
   // console.log("current user from post",currentUserId)
 
-  useEffect(() => {
-    // Initialize the socket connection when the component mounts
-    socket.current = io("ws://localhost:8900");
+  // useEffect(() => {
+  //   // Initialize the socket connection when the component mounts
+  //   socket.current = io("ws://localhost:8900");
 
-    // Cleanup function to disconnect the socket when the component unmounts
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-      }
-    };
-  }, []);
+  //   // Cleanup function to disconnect the socket when the component unmounts
+  //   return () => {
+  //     if (socket.current) {
+  //       socket.current.disconnect();
+  //     }
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   socket.current = io("ws://localhost:8900");
