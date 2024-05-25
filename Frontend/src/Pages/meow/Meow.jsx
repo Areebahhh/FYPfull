@@ -369,8 +369,12 @@ const { login } = useContext(AuthContext); // Get login function from context
 	box-sizing: border-box;
 }
 
+
+
+
 body {
-	background: #f6f5f7;
+	
+  background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 2px,transparent 2px, transparent 4px),linear-gradient(90deg, rgb(29, 67, 158),rgb(219, 239, 242));
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -402,7 +406,7 @@ span {
 }
 
 a {
-	color: #333;
+	color: #00008B;
 	font-size: 14px;
 	text-decoration: none;
 	margin: 15px 0;
@@ -410,8 +414,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #00008B;
-	background-color: #00008B;
+  border: 1px solid #00008B; /* Changed to dark blue */
+  background-color: #00008B; /* Changed to dark blue */
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -454,7 +458,7 @@ input {
 }
 
 .container {
-	background-color: #fff;
+	background-color: #00008B;
 	border-radius: 10px;
 	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
 			0 10px 10px rgba(0,0,0,0.22);
@@ -534,7 +538,7 @@ input {
 }
 
 .overlay {
-	background: #00008B;
+  background: #00008B; 
 	background: -webkit-linear-gradient(to right, #00008B, #00008B);
 	background: linear-gradient(to right, #00008B, #00008B);
 	background-repeat: no-repeat;
@@ -651,7 +655,8 @@ footer a {
  
 <div className="form-container sign-up-container">
           <form onSubmit={handleRecruiterSubmit}>
-            <h1>Recruiter Sign-Up</h1>
+          <h1>AcademyLink</h1>
+            <h3>Recruiter Sign-Up</h3>
             <input
               type="text"
               placeholder="Username"
@@ -731,9 +736,7 @@ footer a {
 
 <div className="form-container sign-in-container">
       <form onSubmit={handleSubmit}> 
-        
         <h1>AcademyLink</h1>
-        
         <h3>Sign In</h3>
 
         <input
@@ -773,7 +776,8 @@ footer a {
 
 <div className="form-container student-sign-up-container">
           <form onSubmit={handleStudentSubmit}>
-            <h1>Student Sign-Up</h1>
+          <h1>AcademyLink</h1>
+            <h3>Student Sign-Up</h3>
             <input
               type="text"
               placeholder="Username"
@@ -815,15 +819,16 @@ footer a {
 
 
 {/* LEFT SIDE PAGE FOR GOING TO LOGIN PAGE */}
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
+        <div className="overlay-container" >
+          <div className="overlay" >
+            <div className="overlay-panel overlay-left" >
               <h1>Welcome Back!</h1>
-              <p>To keep connected with us, please login with your personal info</p>
+              <p>If you already have an account, please sign in</p>
               <button className="ghost" ref={signInRef}>Sign In</button> 
             </div>
-            <div className="overlay-panel overlay-right">
-              <h1>Hello, Friend!</h1>
+            
+            <div className="overlay-panel overlay-right" >
+              <h1>Hello user!</h1>
               <p>Enter your personal details and start your journey with us</p>
               <button className="ghost" ref={RecruiterSignUpRef}>Sign Up as Recruiter</button>
               

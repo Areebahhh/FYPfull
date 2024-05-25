@@ -9,7 +9,9 @@ import {
     getAllAdmins,
     addAdmin,
     updateAdmin,
-    deleteAdmin
+    deleteAdmin,
+
+    createTable
 
 
 
@@ -35,7 +37,8 @@ const router = express.Router()
  router.post("/deleteAdmin", deleteAdmin)
 
 
-
+ router.post("/createTable", createTable)
+ 
 
 
 export default router

@@ -227,7 +227,7 @@ function UniDomainsTableCrud() {
                     <div className="table-wrapper">
                         <div className="table-title">
                             <div className="row">
-                                <div className="col-sm-8"><h2>UniDomain <b>Details</b></h2></div>
+                                <div className="col-sm-8"><h2><b>HEC Universities Table</b></h2></div>
                                 <div className="col-sm-4">
                                     <button type="button" className="btn btn-info add-new" onClick={handleAddRow}>
                                         <i className="fa fa-plus" /> Add New

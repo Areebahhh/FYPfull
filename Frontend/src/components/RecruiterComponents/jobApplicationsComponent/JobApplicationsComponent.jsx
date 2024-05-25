@@ -199,7 +199,20 @@ const ApplicantsForPost = ({ postId }) => {
               </span> */}
 
               <div className="applicantButtons">
+                
+
+
+
+                
+                
+                
                 <button>View profile</button>
+
+                
+
+
+
+
 
                 {!scheduledInterviews.includes(applicant.id) ? (
                   <button onClick={() => {

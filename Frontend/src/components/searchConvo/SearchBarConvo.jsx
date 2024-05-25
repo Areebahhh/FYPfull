@@ -5,7 +5,7 @@ import axios from "axios";
 import { AuthContext } from "../../context/authContext";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
-import "./searchBarConvo.scss";
+// import "./searchBarConvo.scss";
 
 function SearchBarConvo() {
 
@@ -85,12 +85,14 @@ function SearchBarConvo() {
 
 
   return (
-    <div className="searchBar">
-      <div className="search">
+    <div className="searchBar" style={{border: "none"}}>
+      <div className="search" style={{border: "none"}}>
         <SearchOutlinedIcon />
         <input
+          
           type="text"
           placeholder="Search..."
+          
           className="chatMenuInput"
           value={input}
           onChange={(e) => handleChange(e.target.value)}
