@@ -182,6 +182,8 @@ export const deleteAdmin = (req, res) => {
 // ADMIN TABLE CRUD APIS
 
 
+
+
 // createTableHandler.js
 export const createTable = (req, res) => {
   const { tableName } = req.body;
@@ -201,3 +203,72 @@ export const createTable = (req, res) => {
       res.send('Table created successfully');
   });
 };
+
+
+
+
+
+
+
+// UNICOORDINATORS TABLE CRUD APIS
+
+// API to get all coordinators
+export const getAllCoordinators = (req, res) => {
+  const sql = 'SELECT * FROM unicoordinators';
+  db.query(sql, (err, result) => {
+      if (err) {
+          console.error('Error executing query:', err);
+          res.status(500).json({ error: 'Internal server error' });
+      } else {
+          res.status(200).json(result);
+      } 
+  });
+};
+
+// API to add a new coordinator
+export const addCoordinator = (req, res) => {
+  const { coordinatorName, coordinatorUniName, coordinatorEmail, coordinatorPass } = req.body;
+  const hashedPassword = hashPassword(coordinatorPass); // Hash the password before inserting
+  
+  const query = "INSERT INTO unicoordinators (coordinatorName, coordinatorUniName, coordinatorEmail, coordinatorPass) VALUES (?, ?, ?, ?)";
+  db.query(query, [coordinatorName, coordinatorUniName, coordinatorEmail, hashedPassword], (err, result) => {
+      if (err) {
+          return res.status(500).json(err); // Handle query errors
+      }
+      
+      return res.status(200).json("Coordinator added successfully!"); // Successful insertion
+  });
+};
+
+// API to update a coordinator
+export const updateCoordinator = (req, res) => {
+  const { idunicoordinators, coordinatorName, coordinatorUniName, coordinatorEmail, coordinatorPass } = req.body;
+  const hashedPassword = hashPassword(coordinatorPass); // Hash the password before updating
+
+  const query = "UPDATE unicoordinators SET coordinatorName = ?, coordinatorUniName = ?, coordinatorEmail = ?, coordinatorPass = ? WHERE idunicoordinators = ?";
+  db.query(query, [coordinatorName, coordinatorUniName, coordinatorEmail, hashedPassword, idunicoordinators], (err, result) => {
+      if (err) {
+          return res.status(500).json(err); // Handle query errors
+      }
+
+      return res.status(200).json("Coordinator updated successfully!"); // Successful update
+  });
+};
+
+// API to delete a coordinator
+export const deleteCoordinator = (req, res) => {
+  const { idunicoordinators } = req.body;
+
+  const query = "DELETE FROM unicoordinators WHERE idunicoordinators = ?";
+  db.query(query, [idunicoordinators], (err, result) => {
+      if (err) {
+          return res.status(500).json(err); // Handle query errors
+      }
+
+      return res.status(200).json("Coordinator deleted successfully!"); // Successful deletion
+  });
+};
+
+
+
+// UNICOORDINATORS TABLE CRUD APIS

@@ -68,6 +68,7 @@ import { db } from "../connect.js";
 export const login = (req, res) => {
   const userQuery = "SELECT * FROM users WHERE email = ?";
   const adminQuery = "SELECT * FROM admins WHERE email = ?";
+  const coordinatorQuery = "SELECT * FROM unicoordinators WHERE coordinatorEmail = ?";
 
   // First, try to authenticate using the users table
   db.query(userQuery, [req.body.email], (userErr, userData) => {
@@ -121,8 +122,35 @@ export const login = (req, res) => {
         }
       }
 
-      // If authentication using both users and admins tables fails
-      return res.status(400).json("Wrong password or email!");
+      // If authentication using both users and admins tables fails, try the unicoordinators table
+      db.query(coordinatorQuery, [req.body.email], (coordinatorErr, coordinatorData) => {
+        if (coordinatorErr) {
+          return res.status(500).json(coordinatorErr); // Handle query errors
+        }
+        
+        if (coordinatorData.length > 0) {
+          const coordinator = coordinatorData[0];
+          const checkCoordinatorPassword = bcrypt.compareSync(
+            req.body.password,
+            coordinator.coordinatorPass
+          );
+          
+          if (checkCoordinatorPassword) {
+            const token = jwt.sign({ id: coordinator.idunicoordinators }, "secretkey");
+            const { coordinatorPass, ...others } = coordinator;
+            console.log("User type: coordinator");
+            return res
+              .cookie("accessToken", token, {
+                httpOnly: true,
+              })
+              .status(200)
+              .json({ ...others, userType: "coordinator" });
+          }
+        }
+
+        // If authentication using all tables fails
+        return res.status(400).json("Wrong password or email!");
+      });
     });
   });
 };

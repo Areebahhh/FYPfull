@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import AdminsTableCrud from './AdminsTableCrud';
 import UniDomainsTableCrud from './UniDomainsTableCrud';
 import CreateTable from './CreateTable';
+import UniCoordinatorsTableCrud from './UniCoordinatorsTableCrud';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faTableCellsRowLock } from '@fortawesome/free-solid-svg-icons';
 
@@ -156,6 +157,8 @@ function AdminPage() {
             <a href="">
               <i className=""></i>University Coordinators Table
             </a>
+
+            
           </li>
 {/* 
 
@@ -225,9 +228,9 @@ function AdminPage() {
           id="tab4"
           style={{ display: activeTab === 'tab4' ? 'block' : 'none' }}
         >
-          <h2 className="header">TESTING CREATE TABLE</h2>
+          <h2 className="header">Uni Coordinators Table Crud</h2>
 
-          <CreateTable />
+          <UniCoordinatorsTableCrud />
 
         </div>
 

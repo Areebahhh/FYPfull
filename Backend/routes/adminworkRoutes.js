@@ -11,7 +11,10 @@ import {
     updateAdmin,
     deleteAdmin,
 
-    createTable
+    getAllCoordinators,
+    addCoordinator,
+    updateCoordinator,
+    deleteCoordinator
 
 
 
@@ -37,7 +40,11 @@ const router = express.Router()
  router.post("/deleteAdmin", deleteAdmin)
 
 
- router.post("/createTable", createTable)
+//  coordinator's api routes
+ router.get('/getAllCoordinators', getAllCoordinators);
+ router.post("/addCoordinator", addCoordinator)
+ router.post("/updateCoordinator", updateCoordinator)
+ router.post("/deleteCoordinator", deleteCoordinator)
  
 
 

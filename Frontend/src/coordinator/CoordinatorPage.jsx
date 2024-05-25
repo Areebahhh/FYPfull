@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import UnidomainsTableCrudforCoordinators from './UnidomainsTableCrudforCoordinators';
 // import './adminPage.css'; // Include CSS styles
 // import AdminsTableCrud from './AdminsTableCrud';
 // import UniDomainsTableCrud from './UniDomainsTableCrud';
@@ -214,9 +215,10 @@ function CoordinatorPage() {
           id="tab3"
           style={{ display: activeTab === 'tab3' ? 'block' : 'none' }}
         >
-          <h2 className="header">UNI</h2>
+          <h2 className="header">University Students Data</h2>
 
           {/* <UniDomainsTableCrud/> */}
+          <UnidomainsTableCrudforCoordinators />
 
         </div>
 

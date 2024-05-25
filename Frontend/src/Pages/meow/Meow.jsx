@@ -312,7 +312,10 @@ const { login } = useContext(AuthContext); // Get login function from context
         navigate('/recruiterHome'); // Test page for students/recruiters
       } else if(user.userType === 'student') {
         navigate('/studentHome');
+      } else if (user.userType === 'coordinator') {
+        navigate('/CoordinatorPage');
       }
+
     
     } catch (err) {
       const errorMessage = err.response?.data || 'Login failed';

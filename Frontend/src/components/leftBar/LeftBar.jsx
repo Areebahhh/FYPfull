@@ -89,27 +89,6 @@ const LeftBar = () => {
             
           </div>
 
-          {/* lsamf;skmf */}
-
-          {/* <div className="item">
-      <img src={portfolioIcon} alt="" />
-      <Link to="/PortfolioPage" style={{ textDecoration: 'none', color: 'inherit' }}>
-        Portfolio
-      </Link>
-      
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setShowModal(false)}>&times;</span>
-            <p>You don't have a portfolio yet. Create one now!</p>
-          </div>
-        </div>
-      )}
-    </div> */}
-
-
-
-
           
 
           <div className="item">

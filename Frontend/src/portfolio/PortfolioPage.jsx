@@ -88,10 +88,14 @@ function PortfolioPage() {
   });
 
 
+  
+
+
   // useEffect(() => {
   //   console.log("In portfolio page after setting", userId);
   // }, []);
 
+  const [showPopup, setShowPopup] = useState(false);
   const fetchAboutData = async () => {
     
     try {
@@ -102,6 +106,8 @@ function PortfolioPage() {
         setAboutData(response.data);
     } catch (error) {
         console.error('Error fetching About data:', error);
+        console.log("popup check: ")
+        setShowPopup(true);
     }
   };
   
@@ -290,6 +296,72 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
 
 
 
+{/* popup css */}
+
+{/* <div>
+
+  <style>
+
+      {`
+
+body {
+  font-family: "Roboto", sans-serif;
+  padding: 0;
+  margin: 0;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.cookiesContent {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  border-radius: 20px;
+  padding: 30px 30px 70px;
+  button.close {
+    width: 30px;
+    font-size: 20px;
+    color: #c0c5cb;
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 10px;
+  }
+  img {
+    width: 82px;
+    margin-bottom: 15px;
+  }
+  p {
+    margin-bottom: 40px;
+    font-size: 18px;
+  }
+  button.accept {
+    background-color: #ed6755;
+    border: none;
+    border-radius: 5px;
+    width: 200px;
+    padding: 14px;
+    font-size: 16px;
+    color: white;
+    box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+  }
+}
+
+
+      `}
+
+  </style>
+
+
+</div> */}
+
 
 
 
@@ -409,6 +481,34 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
 
 
   <div className="container-fluid p-0"> {/* MAIN BIG DIV*/}
+
+
+  {showPopup && (
+
+
+
+            <div className="popup">
+              <div className="popup-content">
+                <h2>Notice</h2>
+                <p>You have not created your portfolio yet.</p>
+                <button onClick={() => setShowPopup(false)}>Close</button>
+              </div>
+            </div>
+
+    //         <div className="container">
+    //   <div className="cookiesContent" id="cookiesPopup">
+    //     <button className="close">✖</button>
+    //     <img src="https://cdn-icons-png.flaticon.com/512/1047/1047711.png" alt="cookies-img" />
+    //     <p>We use cookies for improving user experience, analytics and marketing.</p>
+    //     <button className="accept">That's fine!</button>
+    //   </div>
+    // </div>
+
+
+
+
+          )}
+
 
 
 
