@@ -18,6 +18,7 @@ import savePostsRoutes from "./routes/savePostsRoutes.js"
 import notificationsRoutes from "./routes/notificationsRoutes.js"
 import portfolioRoutes from "./routes/portfolioRoutes.js"
 import adminworkRoutes from "./routes/adminworkRoutes.js"
+import coordinatorworkRoutes from "./routes/coordinatorworkRoutes.js"
 
 
 //middlewares
@@ -89,6 +90,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
  app.use("/api/portfolio", portfolioRoutes);
  app.use("/api/ad", portfolioRoutes);
  app.use("/api/adminwork", adminworkRoutes)
+ app.use("/api/coordinatorwork", coordinatorworkRoutes)
 
 
 

@@ -144,7 +144,7 @@ export const login = (req, res) => {
                 httpOnly: true,
               })
               .status(200)
-              .json({ ...others, userType: "coordinator" });
+              .json({ ...others, userType: "coordinator", coordinatorUniName: coordinator.coordinatorUniName  });
           }
         }
 

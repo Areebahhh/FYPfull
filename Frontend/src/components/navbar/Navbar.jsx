@@ -18,6 +18,13 @@ import NotificationMenu from "../notificationMenu/NotificationMenu";
 import { makeRequest } from "../../axios";
 
 
+import { useNavigate } from 'react-router-dom';
+
+
+
+
+
+
 
 const Navbar = () => {
    const { toggle, darkMode } = useContext(DarkModeContext);
@@ -47,6 +54,28 @@ const Navbar = () => {
     }
     return '/'; // Default route if type is not recognized
   };
+
+
+
+  const { logout } = useContext(AuthContext); // Get logout function from context
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // Call logout function from context
+      navigate('/'); // Redirect to login page after logout
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+
+
+  
+
+
+
+
 
    
   return (
@@ -112,11 +141,25 @@ const Navbar = () => {
             )}
         </div>
 
-        <div className="icon">
+        {/* <div className="icon">
           <div className="iconImg">
           <LogoutIcon/>
           </div>
-        </div>
+        </div> */}
+
+
+        
+
+<div className="icon" onClick={handleLogout} style={{ cursor: 'pointer' }}>
+      <div className="iconImg">
+        <LogoutIcon />
+      </div>
+    </div>
+
+
+
+
+        
 
       </div>    
 
