@@ -34,7 +34,7 @@ function PortfolioPage() {
     }
   }, [SentUserId, currentUser?.id]);
 
-  // ABOUT DATA FETCHING API WORK
+// ABOUT DATA FETCHING API WORK
   const fetchAboutData = async () => {
     console.log("in fetchaboutdata", userId);
     const response = await makeRequest.get(`/portfolio/getAboutData/${userId}`);
@@ -77,9 +77,9 @@ function PortfolioPage() {
   let linkedinlink = "";
   let githublink = "";
 
-  // ABOUT DATA FETCHING API WORK
+// ABOUT DATA FETCHING API WORK
 
-  // EDUCATION DATA FETCHING API WORK useQuery
+// EDUCATION DATA FETCHING API WORK useQuery
   const fetchEducationData = async () => {
     console.log("in fetchEducationData", userId);
     const response = await makeRequest.get(
@@ -101,9 +101,9 @@ function PortfolioPage() {
     retry: 1,
   });
 
-  // EDUCATION DATA FETCHING API WORK useQuery
+// EDUCATION DATA FETCHING API WORK useQuery
 
-  // EXPERIENCE DATA FETCHING API WORK UseQuery
+// EXPERIENCE DATA FETCHING API WORK UseQuery
   const fetchExperienceData = async () => {
     console.log("in fetchExperienceData", userId);
     const response = await makeRequest.get(
@@ -125,9 +125,9 @@ function PortfolioPage() {
     retry: 1,
   });
 
-  // EXPERIENCE DATA FETCHING API WORK UseQuery
+// EXPERIENCE DATA FETCHING API WORK UseQuery
 
-  // CERTIFICATIONS DATA FETCHING API WORK UseQuery
+// CERTIFICATIONS DATA FETCHING API WORK UseQuery
   const fetchCertificationsData = async () => {
     console.log("in fetchCertificationsData", userId);
     const response = await makeRequest.get(
@@ -149,7 +149,7 @@ function PortfolioPage() {
     retry: 1,
   });
 
-  //CERTIFICATIONS DATA FETCHING API WORK
+//CERTIFICATIONS DATA FETCHING API WORK
 
   // AWARDS DATA FETCHING API WORK
   const fetchAwardsData = async () => {
@@ -230,7 +230,7 @@ function PortfolioPage() {
     queryKey: ["user", userId],
     queryFn: () =>
       makeRequest.get(`/users/find/${userId}`).then((res) => res.data),
-    enabled: !!userId, // Ensures the query is only executed when postId is truthy
+    enabled: !!userId, // Ensures the query is only executed when userId is truthy
     refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
     retry: 1, // Optional: Number of retries before failing the query
   });
@@ -390,7 +390,7 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
           {" "}
 
           {/* MAIN BIG DIV*/}
-          
+
           {/* ABOUT SECTION */}
           {error && <div>Error fetching data</div>}
           {isLoading && <div>Loading...</div>}
