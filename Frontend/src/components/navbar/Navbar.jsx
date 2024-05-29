@@ -21,7 +21,7 @@ import { makeRequest } from "../../axios";
 import { useNavigate } from 'react-router-dom';
 
 
-
+import fyplogonavbar from '../../assets/fyplogonavbar.png'
 
 
 
@@ -31,6 +31,7 @@ const Navbar = () => {
    const { currentUser } = useContext(AuthContext);
 
    const [openUpdate, setOpenUpdate] = useState(false);
+
  
     
     const recieverId = currentUser.id;
@@ -60,6 +61,7 @@ const Navbar = () => {
   const { logout } = useContext(AuthContext); // Get logout function from context
   const navigate = useNavigate(); // Hook for navigation
 
+  const [showModal, setShowModal] = useState(false);
   const handleLogout = async () => {
     try {
       await logout(); // Call logout function from context
@@ -82,6 +84,21 @@ const Navbar = () => {
 
     <>
 
+    <div>
+
+        <style>
+          {`
+          .logo {
+            height: 100px; /* Adjust size as needed */
+            margin-right: 5px; /* Adjust spacing as needed */
+            
+          }
+          
+          `}
+        </style>
+
+    </div>
+
     
 
 
@@ -89,9 +106,17 @@ const Navbar = () => {
 
     <div className="navbar">
       <div className="left">
-        <Link to={getHomeRoute()} style={{ textDecoration: "none" }}>
+
+      {/* <Link to={getHomeRoute()} style={{ textDecoration: "none" }}>
+          <img src={fyplogonavbar} alt="Logo" className="logo" />
+        </Link> */}
+
+
+        <Link to={getHomeRoute()} style={{ textDecoration: "none", padding: "2px" }}>
           <span>AcademyLink</span>
         </Link>
+
+
         <Link to={getHomeRoute()}>
           <HomeOutlinedIcon style={{ color: 'inherit', textDecoration: 'none' }} />
         </Link>

@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 function UniDomainsTableCrud() {
     const initialRows = [];
 
+   const uniNamedropdownOptions = ['AUMC', 'COMSATS', 'NUST', 'GIKI', 'BZU', 'FAST']; // Hardcoded dropdown values
+
+
     const [rows, setRows] = useState(initialRows);
     const [editingIndex, setEditingIndex] = useState(-1);
     const [newRow, setNewRow] = useState({ uniEmail: '', uniPass: '', uniName: '' });
@@ -22,6 +25,10 @@ function UniDomainsTableCrud() {
 
     const handleSaveRow = () => {
         if (isAdding) {
+            if (!newRow.uniName) {
+                alert('Please select an uniName from the dropdown.');
+                return;
+            }
             const newUniDomain = { ...newRow };
 
             fetch('http://localhost:8800/api/adminwork/addUniDomain', {
@@ -141,7 +148,12 @@ function UniDomainsTableCrud() {
                     width: 700px;
                     margin: 30px auto;
                     background: #fff;
-                    padding: 20px;
+                    padding: 10px;
+
+                    /* this is for setting the spacing of the table inside the page */
+                    margin-left: 10px;
+                    
+      
                     box-shadow: 0 1px 1px rgba(0,0,0,.05);
                 }
                 .table-title {
@@ -216,13 +228,26 @@ function UniDomainsTableCrud() {
                     display: none;
                 }
 
-                .table td.email {
-                    max-width: 150px; /* Adjust the maximum width as needed */
-                    word-wrap: break-word;
-                }
+                
+
+
+                /* css for handling column data overflowing on other columns */
+            th, td {
+            padding: 5px;
+            text-align: left;
+            vertical-align: top;
+            border: 1px solid #ddd;
+            overflow: hidden;
+            white-space: nowrap;
+            
+          }
                 
             ` }} />
-            <div className="container-lg">
+
+
+
+            
+            <div className="container-lg" style={{marginRight: "400px"}}>
                 <div className="table-responsive">
                     <div className="table-wrapper">
                         <div className="table-title">
@@ -235,23 +260,36 @@ function UniDomainsTableCrud() {
                                 </div>
                             </div>
                         </div>
-                        <table className="table table-bordered">
+
+
+                        <div style={{ height: '370px', overflow: 'auto', width: '800px', marginRight: '40px'}}>
+                        <table className="table table-bordered" style={{tableLayout: 'fixed', height: "300px" }}>
                             <thead>
                                 <tr>
-                                    <th style={{ width: '25%' }}>ID</th>
-                                    <th style={{ width: '60%' }}>EMAIL</th>
-                                    <th style={{ width: '25%' }}>PASSWORD</th>
-                                    <th style={{ width: '25%' }}>NAME</th>
-                                    <th style={{ width: '25%' }}>ACTIONS</th>
+                                    
+                                    <th style={{ width: '60px' }}>ID</th>
+                                    <th style={{ width: '200px' }}>EMAIL</th>
+                                    <th style={{ width: '150px' }}>PASSWORD</th>
+                                    <th style={{ width: '150px' }}>NAME</th>
+                                    <th style={{ width: '150px' }}>ACTIONS</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {rows.map((row, index) => (
                                     <tr key={index}>
                                         <td className="email">{row.idunidomains}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.uniEmail} onChange={(e) => setNewRow({ ...newRow, uniEmail: e.target.value })} /> : row.uniEmail}</td>
-                                        <td>{editingIndex === index ? <input type="password" defaultValue={row.uniPass} onChange={(e) => setNewRow({ ...newRow, uniPass: e.target.value })} /> : '******'}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })} /> : row.uniName}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.uniEmail} onChange={(e) => setNewRow({ ...newRow, uniEmail: e.target.value })} /> : row.uniEmail}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="password" defaultValue={row.uniPass} onChange={(e) => setNewRow({ ...newRow, uniPass: e.target.value })} /> : '******'}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>
+                                        {editingIndex === index ? (
+                                                    <select value={newRow.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })}>
+                                                        <option value="">Select Name</option>
+                                                        {uniNamedropdownOptions.map((option, index) => (
+                                                            <option key={index} value={option}>{option}</option>
+                                                        ))}
+                                                    </select>
+                                                ) : row.uniName}
+                                            </td>
                                         <td>
                                             {editingIndex === index ? (
                                                 <>
@@ -278,6 +316,7 @@ function UniDomainsTableCrud() {
                                                 style={{ width: '100%' }}
                                             />
                                         </td>
+                                        
                                         <td>
                                             <input
                                                 type="password"
@@ -287,13 +326,17 @@ function UniDomainsTableCrud() {
                                             />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                value={newRow.uniName}
-                                                onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })}
-                                                style={{ width: '100%' }}
-                                            />
-                                        </td>
+                                                <select
+                                                    value={newRow.uniName}
+                                                    onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })}
+                                                    style={{ width: '100%' }}
+                                                >
+                                                    <option value="">Select uniName</option>
+                                                    {uniNamedropdownOptions.map((option, index) => (
+                                                        <option key={index} value={option}>{option}</option>
+                                                    ))}
+                                                </select>
+                                            </td>
                                         <td>
                                             <button className="btn btn-success" onClick={handleSaveRow}>Save</button>
                                             <button className="btn btn-secondary" onClick={handleCancelAddRow}>Cancel</button>
@@ -302,6 +345,9 @@ function UniDomainsTableCrud() {
                                 )}
                             </tbody>
                         </table>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

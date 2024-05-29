@@ -15,6 +15,12 @@ import { AuthContext } from '../../context/authContext';
 // import '../vendor/simple-line-icons/css/simple-line-icons.css';
 // import '../css/resume.min.css';
 
+
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from '../../axios';
+
+
+
 function EducationP() {
     const { currentUser } = useContext(AuthContext);
     const userId = currentUser.id;
@@ -213,14 +219,150 @@ useEffect(() => {
     };
 
 
+
+
+
+
+
+
+
+
+
+
+
+const email = currentUser.email;
+
+
+    const {
+        isLoading: isLoadingStudent,
+        error: errorStudent,
+        data: dataStudent,
+      } = useQuery({
+        queryKey: ["student", email],
+        queryFn: () => makeRequest.get(`/portfolio/getStudentDataByEmail/${email}`)
+        .then(res => res.data),
+        
+        enabled: !!email, // Ensures the query is only executed when email is truthy
+        refetchOnWindowFocus: false, // Optional: Disable refetch on window focus
+        retry: 1, // Optional: Number of retries before failing the query
+      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 
     return (
+
+        
+
+
+    
+
+
+
         <section className="resume-section p-3 p-lg-5 d-flex flex-column" id="Education">
             <div className="my-auto">
+
                 <h2 className="mb-5">Education</h2>
+
+{/* data fetched from unidomains */}
+
+
+{errorStudent && <div>Error fetching data</div>}
+{isLoadingStudent && <div>Loading...</div>}
+
+{console.log("datstudent in education", dataStudent)}
+
+{dataStudent && (
+
+<>
+
+  <div className="resume-content mr-auto">
+    <h3 className="mb-0">
+      <input
+        type="text"
+        name="universityName"
+        value={dataStudent?.uniName}
+        placeholder="University"
+        style={{ border: 'none' }}
+        readOnly
+      />
+    </h3>
+    <div className="subheading mb-3">
+      <input
+        type="text"
+        name="degreeType"
+        value={dataStudent?.studentDegree}
+        placeholder="Degree Type"
+        style={{ border: 'none' }}
+        readOnly
+      />
+    </div>
+    <div>
+      <input
+        type="text"
+        name="courseName"
+        value={dataStudent?.studentName}  // Adjust this if 'courseName' is different
+        placeholder="Course Name"
+        style={{ border: 'none' }}
+        readOnly
+      />
+    </div>
+    <p>
+      CGPA: 
+      <input
+        type="text"
+        name="cgpa"
+        value={dataStudent?.studentCGPA}
+        placeholder="CGPA"
+        style={{ border: 'none' }}
+        readOnly
+      />
+    </p>
+  </div>
+
+
+
+  <div className="resume-date text-md-right">
+    <span className="text-primary">
+      <input
+        type="text"
+        name="degreeDate"
+        value={dataStudent?.degreeDate}  // Adjust this if 'degreeDate' is different
+        placeholder="Degree Timeline"
+        style={{ border: 'none' }}
+        readOnly
+      />
+    </span>
+  </div>
+
+  </>
+
+)}
+              
+{/* data fetched from unidomains */}
+
+
+<p></p>
+
+
                 {educationItems.map((item) => (
                     <div key={item.educationSectionID} className="resume-item d-flex flex-column flex-md-row mb-5">
+                        
+                        
+                        
                         <div className="resume-content mr-auto">
                             <h3 className="mb-0">
                                 <input
@@ -253,7 +395,7 @@ useEffect(() => {
                                 />
                             </div>
                             <p>
-                                CGPA: 
+                                Marks: 
                                 <input
                                     type="text"
                                     name="cgpa"
@@ -276,6 +418,10 @@ useEffect(() => {
                                 />
                             </span>
                         </div>
+
+
+
+
                         {/* <button onClick={() => handleRemove(item.id)}>Remove</button> */}
                         <button onClick={() => handleRemove(item.educationSectionID)}>Remove</button> {/* Ensure this parameter is correct */}
                     </div>

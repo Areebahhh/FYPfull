@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../context/authContext';
+import fyplogo from '../assets/fyplogo.png';
+
 
 function UnidomainsTableCrudforCoordinators() {
   const { currentUser } = useContext(AuthContext);
@@ -18,6 +20,7 @@ function UnidomainsTableCrudforCoordinators() {
     });
     const [isAdding, setIsAdding] = useState(false);
 
+    
 
 
     useEffect(() => {
@@ -43,7 +46,7 @@ function UnidomainsTableCrudforCoordinators() {
         setNewRow({ 
             uniEmail: '', 
             uniPass: '', 
-            uniName: '', 
+            uniName: currentUser.coordinatorUniName, 
             studentName: '', 
             studentRollNo: '', 
             studentCGPA: '', 
@@ -205,6 +208,8 @@ function UnidomainsTableCrudforCoordinators() {
             console.log("displaying rows data", rows)
     }, []);
 
+    console.log("current user email: ", currentUser.coordinatorUniName)
+
     return (
       <div>
       <meta charSet="utf-8" />
@@ -304,16 +309,18 @@ function UnidomainsTableCrudforCoordinators() {
               display: none;
           }
 
-          /* css for handling column data overflowing on other columns */
+            /* css for handling column data overflowing on other columns */
           th, td {
-            padding: 10px;
+            padding: 5px;
             text-align: left;
             vertical-align: top;
             border: 1px solid #ddd;
             overflow: hidden;
             white-space: nowrap;
-            text-overflow: ellipsis;
+            
           }
+
+          
 
 
       ` }} />
@@ -333,7 +340,10 @@ function UnidomainsTableCrudforCoordinators() {
                                 </div>
                             </div>
                         </div>
-                        <table className="table table-bordered" style={{tableLayout: 'fixed'}}>
+
+
+                        <div style={{ height: '370px', overflow: 'auto', width: '1035px'}}>
+                        <table className="table table-bordered" style={{tableLayout: 'fixed', height: "300px" }}>
                             <thead>
                                 <tr>
                                     <th style={{ width: '60px' }}>ID</th>
@@ -344,20 +354,20 @@ function UnidomainsTableCrudforCoordinators() {
                                     <th style={{ width: '140px' }}>Student Roll No</th>
                                     <th style={{ width: '140px' }}>Student CGPA</th>
                                     <th style={{ width: '140px' }}>Student Degree</th>
-                                    <th style={{ width: '100px' }}>Actions</th>
+                                    <th style={{ width: '150px' }}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {rows.map((row, index) => (
-                                    <tr key={index}>
+                                    <tr key={index} >
                                         <td>{row.idunidomains}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.uniEmail} onChange={(e) => setNewRow({ ...newRow, uniEmail: e.target.value })} /> : row.uniEmail}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.uniPass} onChange={(e) => setNewRow({ ...newRow, uniPass: e.target.value })} /> : row.uniPass}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })} /> : row.uniName}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.studentName} onChange={(e) => setNewRow({ ...newRow, studentName: e.target.value })} /> : row.studentName}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.studentRollNo} onChange={(e) => setNewRow({ ...newRow, studentRollNo: e.target.value })} /> : row.studentRollNo}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.studentCGPA} onChange={(e) => setNewRow({ ...newRow, studentCGPA: e.target.value })} /> : row.studentCGPA}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.studentDegree} onChange={(e) => setNewRow({ ...newRow, studentDegree: e.target.value })} /> : row.studentDegree}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.uniEmail} onChange={(e) => setNewRow({ ...newRow, uniEmail: e.target.value })} /> : row.uniEmail}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.uniPass} onChange={(e) => setNewRow({ ...newRow, uniPass: e.target.value })} /> : row.uniPass}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })} readOnly/> : row.uniName}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.studentName} onChange={(e) => setNewRow({ ...newRow, studentName: e.target.value })} /> : row.studentName}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.studentRollNo} onChange={(e) => setNewRow({ ...newRow, studentRollNo: e.target.value })} /> : row.studentRollNo}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.studentCGPA} onChange={(e) => setNewRow({ ...newRow, studentCGPA: e.target.value })} /> : row.studentCGPA}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.studentDegree} onChange={(e) => setNewRow({ ...newRow, studentDegree: e.target.value })} /> : row.studentDegree}</td>
                                         <td>
                                             {editingIndex === index ? (
                                                 <>
@@ -378,7 +388,7 @@ function UnidomainsTableCrudforCoordinators() {
                                         <td>New</td>
                                         <td><input type="text" value={newRow.uniEmail} onChange={(e) => setNewRow({ ...newRow, uniEmail: e.target.value })} /></td>
                                         <td><input type="text" value={newRow.uniPass} onChange={(e) => setNewRow({ ...newRow, uniPass: e.target.value })} /></td>
-                                        <td><input type="text" value={newRow.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })} /></td>
+                                        <td><input type="text" value={newRow.uniName} onChange={(e) => setNewRow({ ...newRow, uniName: e.target.value })} readOnly/></td>
                                         <td><input type="text" value={newRow.studentName} onChange={(e) => setNewRow({ ...newRow, studentName: e.target.value })} /></td>
                                         <td><input type="text" value={newRow.studentRollNo} onChange={(e) => setNewRow({ ...newRow, studentRollNo: e.target.value })} /></td>
                                         <td><input type="text" value={newRow.studentCGPA} onChange={(e) => setNewRow({ ...newRow, studentCGPA: e.target.value })} /></td>
@@ -391,6 +401,9 @@ function UnidomainsTableCrudforCoordinators() {
                                 )}
                             </tbody>
                         </table>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

@@ -5,6 +5,46 @@ import jwt from "jsonwebtoken";
 
 
 
+
+
+export const getStudentDataByEmail = (req, res) => {
+  const email = req.params.email;
+
+  // SQL query to fetch the student record with the given email
+  const q = `
+    SELECT *
+    FROM unidomains
+    WHERE uniEmail = ?
+    LIMIT 1
+  `;
+
+  // Execute the query to fetch the student record
+  db.query(q, [email], (err, result) => {
+    if (err) {
+      console.error('Error fetching student data:', err);
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: 'Student not found for the given email' });
+    }
+
+    // Student record exists, return the data
+    const studentData = result[0];
+    res.status(200).json(studentData);
+  });
+};
+
+
+
+
+
+
+
+
+
+
+
 // Function to fetch portfolio data for a specific user
 export const getPortfolioData = (req, res) => {
   const userId = req.params.userId;
@@ -33,6 +73,8 @@ export const getPortfolioData = (req, res) => {
     res.status(200).json(portfolioData);
   });
 };
+
+
 
 
 

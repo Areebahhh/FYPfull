@@ -34,7 +34,8 @@ import {
     getLastCertificationsSectionID,
     deleteCertificationsSection,
 
-    getUserSections
+    getUserSections,
+    getStudentDataByEmail
 
 
 
@@ -44,8 +45,14 @@ import {
 const router = express.Router();
 
 
-getPortfolioData
+
 router.get("/getPortfolioData", getPortfolioData);
+
+
+router.get("/getStudentDataByEmail/:email", getStudentDataByEmail);
+
+
+
 
 // ABOUT ROUTES
 // route for the api code that is checking about id value for the current user

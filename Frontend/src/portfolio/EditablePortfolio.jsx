@@ -26,6 +26,16 @@ import CertificationsP from './editableComponents/CertificationsP.jsx'
 
 import "./popupbox.css"
 
+
+
+// import { SketchPicker } from 'react-color';
+
+
+
+
+
+
+
 const grey = {
   50: '#F3F6F9',
   100: '#E5EAF2',
@@ -68,7 +78,7 @@ const PopupBody = styled('div')(
 `,
 );
 
-const Button = styled('button')(
+const CustomButton = styled('button')(
   ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
@@ -197,6 +207,28 @@ function EditablePortfolio() {
 
 
 
+//  const [color, setColor] = useState('#007bff'); // Initial color (blue)
+//   const [showColorPicker, setShowColorPicker] = useState(false);
+
+//   useEffect(() => {
+//     document.getElementById('sideNav').style.setProperty('--navbar-bg-color', color);
+//   }, [color]);
+
+
+//   const handleColorChange = (newColor) => {
+//     setColor(newColor.hex);
+//     console.log("Selected color: ", newColor.hex);
+//     console.log("color: ", color)
+//   };
+
+
+
+
+
+
+
+
+
 
   return (
 
@@ -260,20 +292,25 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
     {/* Custom styles for this template */}
     <link href="css/resume.min.css" rel="stylesheet" />
     
+
+
+
+
+
+
+
+
     {/* SIDE NAVBAR COMPLETE DIV */}
     
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary " id="sideNav">
-    {/* <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav"> */}
-  
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary " id="sideNav" >
+    
       <a className="navbar-brand js-scroll-trigger" href="#page-top">
-        {/* <span className="d-block d-lg-none">Start Bootstrap</span> */}
+        
         <span className="d-none d-lg-block">
           
           {/* side navbar profile img */}
           <img className="img-fluid img-profile rounded-circle mx-auto mb-2" 
           
-          // src='https://images.pexels.com/photos/3792581/pexels-photo-3792581.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
-          // alt='img' />
 
           src={"/upload/" + currentUser.profilePic} alt="" />
 
@@ -282,73 +319,34 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
         </span>
       </a>
   
-      {/* <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon" />
-      </button> */}
-  
-  
-      {/* sidebar components div */}
-{/* ojdcoaejfcawjemipf */}
+      
 
-{/* GOOOODDD COODDEEEEEEEEEEEEEEEEEEE */}
-      {/* <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav">
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#about">About</a>
-            </li>
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#experience">Experience</a>
-          </li>
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#education">Education</a>
-          </li>
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#skills">Skills</a>
-          </li>
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#interests">Interests</a>
-          </li>
-  
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#awards">Awards</a>
-          </li>
-
-          <li className="nav-item">
-            <a className="nav-link js-scroll-trigger" href="#certifications">Certifications</a>
-          </li>
-  
-  
-        </ul>
-      </div> */}
-{/* GOOOODDD COODDEEEEEEEEEEEEEEEEEEE */}
 
 
 
 <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav">
 
-
-{/* <div>
-      <Button aria-describedby={id} type="button" onClick={handleClick}>
-        Toggle Popup
-      </Button>
-      <BasePopup id={id} open={open} anchor={anchor}>
-        <PopupBody>
-          <button>Experience + </button> <button>Education + </button>
-          <p></p>
-          <button>Skills + </button> <button>Interests + </button>
-        </PopupBody>
-      </BasePopup>
-    </div> */}
-
 <li className="nav-item">
             <a className="nav-link js-scroll-trigger" href="#about">About</a>
             </li>
+
+{/* jkbkhbjhbhk */}
+
+
+
+{/* <li className="nav-item">
+            <button aria-describedby="color-picker" onClick={() => setShowColorPicker(!showColorPicker)}>
+              Change Navbar Color
+            </button>
+            {showColorPicker && (
+              <div style={{ position: 'absolute', zIndex: '2' }}>
+                <div style={{ position: 'fixed', top: '0px', right: '0px', bottom: '0px', left: '0px' }} onClick={() => setShowColorPicker(false)} />
+                <SketchPicker color={color} onChangeComplete={handleColorChange} />
+              </div>
+            )}
+          </li> */}
+
 
 
 <div>
@@ -356,9 +354,9 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
 
 
 
-      <Button aria-describedby={id} type="button" onClick={handleClick}>
+      <CustomButton aria-describedby={id} type="button" onClick={handleClick}>
         Add More Sections
-      </Button>
+      </CustomButton>
 
 
 
@@ -398,19 +396,23 @@ body{font-family:'Open Sans',serif;padding-top:54px;color:#868e96}@media (min-wi
     </ul>
     </div>
 
-
-
-
-
-{/* kjdwofnjwnjewhf */}
-      {/* sidebar components div */}
-  
-  
-
     </nav>
   {/* SIDE NAVBAR COMPLETE DIV */}
   
+
+
+
+
+
+
+
+
+
+
+
+
   
+
 <AboutP />
   
     <div className="container-fluid p-0"> 

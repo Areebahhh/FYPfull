@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 function UniCoordinatorsTableCrud() {
     const initialRows = [];
+    const uniNamedropdownOptions = ['AUMC', 'COMSATS', 'NUST', 'GIKI', 'BZU', 'FAST']; // Hardcoded dropdown values
 
     const [rows, setRows] = useState(initialRows);
     const [editingIndex, setEditingIndex] = useState(-1);
@@ -19,9 +20,15 @@ function UniCoordinatorsTableCrud() {
         setIsAdding(false);
         setEditingIndex(-1);
     };
+
+    
     
     const handleSaveRow = () => {
-        if (isAdding) {
+        if (isAdding)  {
+            if (!newRow.coordinatorUniName) {
+                alert('Please select an coordinatorUniName from the dropdown.');
+                return;
+            }
             const newCoordinator = { ...newRow };
 
             // Make POST request to addCoordinator API
@@ -147,8 +154,9 @@ function UniCoordinatorsTableCrud() {
                     width: 700px;
                     margin: 30px auto;
                     background: #fff;
-                    padding: 20px;
+                    padding: 10px;
                     box-shadow: 0 1px 1px rgba(0,0,0,.05);
+                    margin-left: 70px;
                 }
                 .table-title {
                     padding-bottom: 10px;
@@ -221,6 +229,19 @@ function UniCoordinatorsTableCrud() {
                 table.table td .add {
                     display: none;
                 }
+
+
+                th, td {
+                    padding: 5px;
+                    text-align: left;
+                    vertical-align: top;
+                    border: 1px solid #ddd;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    
+                  }
+        
+
             ` }} />
 
             <div className="container-lg">
@@ -236,25 +257,37 @@ function UniCoordinatorsTableCrud() {
                                 </div>
                             </div>
                         </div>
-                        <table className="table table-bordered" style={{tableLayout: 'fixed'}}>
+
+                        <div style={{ height: '370px', overflow: 'auto', width: '930px'}}>
+                        <table className="table table-bordered" style={{tableLayout: 'fixed', height: "200px"}}>
                             <thead>
                                 <tr>
                                     <th style={{ width: '60px' }}>ID</th>
-                                    <th style={{ width: '150px' }}>Coordinator Name</th>
-                                    <th style={{ width: '150px' }}>Coordinator's UniName</th>
-                                    <th style={{ width: '150px' }}>Coordinator Email</th>
-                                    <th style={{ width: '100px' }}>Coordinator Password</th>
-                                    <th style={{ width: '80px' }}>Actions</th>
+                                    <th style={{ width: '180px' }}>Coordinator Name</th>
+                                    <th style={{ width: '180px' }}>Coordinator's UniName</th>
+                                    <th style={{ width: '180px' }}>Coordinator Email</th>
+                                    <th style={{ width: '180px' }}>Coordinator Password</th>
+                                    <th style={{ width: '140px' }}>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {rows.map((row, index) => (
                                     <tr key={index}>
                                         <td>{row.idunicoordinators}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorName} onChange={(e) => setNewRow({ ...newRow, coordinatorName: e.target.value })} /> : row.coordinatorName}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorUniName} onChange={(e) => setNewRow({ ...newRow, coordinatorUniName: e.target.value })} /> : row.coordinatorUniName}</td>
-                                        <td>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorEmail} onChange={(e) => setNewRow({ ...newRow, coordinatorEmail: e.target.value })} /> : row.coordinatorEmail}</td>
-                                        <td>{editingIndex === index ? <input type="password" defaultValue={row.coordinatorPass} onChange={(e) => setNewRow({ ...newRow, coordinatorPass: e.target.value })} /> : '******'}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorName} onChange={(e) => setNewRow({ ...newRow, coordinatorName: e.target.value })} /> : row.coordinatorName}</td>
+                                        {/* <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorUniName} onChange={(e) => setNewRow({ ...newRow, coordinatorUniName: e.target.value })} /> : row.coordinatorUniName}</td> */}
+                                        <td style={{textOverflow: "ellipsis"}}>
+                                                {editingIndex === index ? (
+                                                    <select value={newRow.coordinatorUniName} onChange={(e) => setNewRow({ ...newRow, coordinatorUniName: e.target.value })}>
+                                                        <option value="">Select Name</option>
+                                                        {uniNamedropdownOptions.map((option, index) => (
+                                                            <option key={index} value={option}>{option}</option>
+                                                        ))}
+                                                    </select>
+                                                ) : row.coordinatorUniName}
+                                            </td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="text" defaultValue={row.coordinatorEmail} onChange={(e) => setNewRow({ ...newRow, coordinatorEmail: e.target.value })} /> : row.coordinatorEmail}</td>
+                                        <td style={{textOverflow: "ellipsis"}}>{editingIndex === index ? <input type="password" defaultValue={row.coordinatorPass} onChange={(e) => setNewRow({ ...newRow, coordinatorPass: e.target.value })} /> : '******'}</td>
                                         <td>
                                             {editingIndex === index ? (
                                                 <>
@@ -282,13 +315,17 @@ function UniCoordinatorsTableCrud() {
                                             />
                                         </td>
                                         <td>
-                                            <input
-                                                type="text"
-                                                value={newRow.coordinatorUniName}
-                                                onChange={(e) => setNewRow({ ...newRow, coordinatorUniName: e.target.value })}
-                                                style={{ width: '100%' }}
-                                            />
-                                        </td>
+                                                <select
+                                                    value={newRow.coordinatorUniName}
+                                                    onChange={(e) => setNewRow({ ...newRow, coordinatorUniName: e.target.value })}
+                                                    style={{ width: '100%' }}
+                                                >
+                                                    <option value="">Select coordinatorUniName</option>
+                                                    {uniNamedropdownOptions.map((option, index) => (
+                                                        <option key={index} value={option}>{option}</option>
+                                                    ))}
+                                                </select>
+                                            </td>
                                         <td>
                                             <input
                                                 type="text"
@@ -313,6 +350,9 @@ function UniCoordinatorsTableCrud() {
                                 )}
                             </tbody>
                         </table>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
